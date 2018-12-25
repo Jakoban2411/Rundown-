@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 224444437130649034}
   - component: {fileID: 212983401768163092}
   - component: {fileID: 95415062689384298}
+  - component: {fileID: 65516319605817770}
   m_Layer: 5
   m_Name: Enemy
   m_TagString: Untagged
@@ -28,6 +29,18 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!65 &65516319605817770
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1903794993941874}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.56, y: 2.5600002, z: 0.2}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!95 &95415062689384298
 Animator:
   serializedVersion: 3

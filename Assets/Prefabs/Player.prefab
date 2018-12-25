@@ -39,9 +39,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccff9ba507719b6429c87f213205b6bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ReloadText: {fileID: 0}
   MovementSpeed: 5
   Bullet: {fileID: 1464952005837080, guid: 61697e10d39750446b152066cd7ba9b4, type: 2}
   BulletSpeed: 10
+  Magazine: 200
 --- !u!212 &212362379582101766
 SpriteRenderer:
   m_ObjectHideFlags: 1
