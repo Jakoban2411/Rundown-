@@ -93,8 +93,7 @@ public class PlayerMovement : MonoBehaviour {
             ObjBullet = Instantiate<GameObject>(Bullet, transform.position, Rot);
             ObjBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(0, BulletSpeed);
             BulletsFired++;
-            Debug.Log("Bullets Fired this magazine:" + BulletsFired);
-            Destroy(ObjBullet, 2);
+           Destroy(ObjBullet,2);
            
         }
         else
