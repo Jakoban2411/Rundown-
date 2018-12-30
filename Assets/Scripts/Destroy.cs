@@ -15,8 +15,11 @@ public class Destroy : MonoBehaviour {
 	}
 
     private void OnTriggerEnter2D(Collider2D collision)
-    {            
-            Debug.Log("collision:" + collision.gameObject);
+    {
+        if (collision.gameObject.tag != "Enemy")
+        {
+           // Debug.Log("collision:" + collision.gameObject);
             Destroy(collision.gameObject);
+        }
     }
 }
