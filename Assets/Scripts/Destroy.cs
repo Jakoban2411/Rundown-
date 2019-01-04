@@ -16,9 +16,8 @@ public class Destroy : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag != "Enemy")
+        if (collision.gameObject.tag != "Enemy" && collision.gameObject.tag != "Pubic")
         {
-           // Debug.Log("collision:" + collision.gameObject);
             Destroy(collision.gameObject);
         }
     }
