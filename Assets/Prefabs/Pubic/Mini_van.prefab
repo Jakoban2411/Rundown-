@@ -23,6 +23,8 @@ GameObject:
   - component: {fileID: 50232227120965754}
   - component: {fileID: 61984764520417934}
   - component: {fileID: 114409665426161926}
+  - component: {fileID: 114663414014136456}
+  - component: {fileID: 114674737020100332}
   m_Layer: 0
   m_Name: Mini_van
   m_TagString: Pubic
@@ -100,6 +102,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MoveSpeed: 0
+--- !u!114 &114663414014136456
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1238021966363942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9657ccfd800b2764597838f35b5b8b1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Health: 100
+--- !u!114 &114674737020100332
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1238021966363942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3217531a5971f1e4987903c759bae0e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Explosion: {fileID: 139366, guid: b185c1a9cf067374586d095111b15bd1, type: 2}
+  ExplosionSFX: {fileID: 8300000, guid: 15b4dd2b0e452da4ebba74ec0a42d8fc, type: 3}
 --- !u!212 &212529760598917228
 SpriteRenderer:
   m_ObjectHideFlags: 1

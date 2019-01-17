@@ -23,6 +23,8 @@ GameObject:
   - component: {fileID: 50408692535925628}
   - component: {fileID: 61625962233950426}
   - component: {fileID: 114744028125187274}
+  - component: {fileID: 114579763342869722}
+  - component: {fileID: 114969491285312894}
   m_Layer: 0
   m_Name: Audi
   m_TagString: Pubic
@@ -88,6 +90,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.7685597, y: 2.0679903}
   m_EdgeRadius: 0
+--- !u!114 &114579763342869722
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1303463346805280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9657ccfd800b2764597838f35b5b8b1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Health: 100
 --- !u!114 &114744028125187274
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -100,6 +114,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MoveSpeed: 0
+--- !u!114 &114969491285312894
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1303463346805280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3217531a5971f1e4987903c759bae0e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Explosion: {fileID: 139366, guid: b185c1a9cf067374586d095111b15bd1, type: 2}
+  ExplosionSFX: {fileID: 8300000, guid: 15b4dd2b0e452da4ebba74ec0a42d8fc, type: 3}
 --- !u!212 &212151978786619382
 SpriteRenderer:
   m_ObjectHideFlags: 1

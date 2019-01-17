@@ -23,6 +23,8 @@ GameObject:
   - component: {fileID: 50127658118972906}
   - component: {fileID: 61157457803078056}
   - component: {fileID: 114571668365901736}
+  - component: {fileID: 114416891374861964}
+  - component: {fileID: 114312483208181118}
   m_Layer: 0
   m_Name: Black_viper
   m_TagString: Pubic
@@ -88,6 +90,31 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.9011361, y: 2.2005682}
   m_EdgeRadius: 0
+--- !u!114 &114312483208181118
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1513561977568604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3217531a5971f1e4987903c759bae0e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Explosion: {fileID: 139366, guid: b185c1a9cf067374586d095111b15bd1, type: 2}
+  ExplosionSFX: {fileID: 8300000, guid: 15b4dd2b0e452da4ebba74ec0a42d8fc, type: 3}
+--- !u!114 &114416891374861964
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1513561977568604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9657ccfd800b2764597838f35b5b8b1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Health: 100
 --- !u!114 &114571668365901736
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 82455889904944590}
   - component: {fileID: 61515497174515694}
   - component: {fileID: 82816339811244994}
+  - component: {fileID: 114536283372372042}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -67,7 +68,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: fb74e9cc81ee35d4ba7bc0dec151a58b, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.4
+  m_Volume: 0.2
   m_Pitch: 0.5
   Loop: 0
   Mute: 0
@@ -266,6 +267,18 @@ MonoBehaviour:
   LMGReloadaudio: {fileID: 8300000, guid: 5f30f6a26298ea04290f9d3dce1f5572, type: 3}
   LMGStopFireAudio: {fileID: 8300000, guid: f516b0a869b5a7744887730fa7c25e28, type: 3}
   LMGStartAudio: {fileID: 8300000, guid: aa8714a240c90da4fbcf7d4dd2ae56df, type: 3}
+--- !u!114 &114536283372372042
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1293350300785178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9657ccfd800b2764597838f35b5b8b1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Health: 1000
 --- !u!212 &212362379582101766
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -91,9 +91,10 @@ public class PlayerMovement : MonoBehaviour {
         
         
             ObjBullet = Instantiate<GameObject>(Bullet, transform.position, Rot);
+            Physics2D.IgnoreCollision(ObjBullet.GetComponent<Collider2D>(), GetComponent<Collider2D>());
             ObjBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(0, BulletSpeed);
             BulletsFired++;
-           Destroy(ObjBullet,2);
+            Destroy(ObjBullet,2);
            
         }
         else

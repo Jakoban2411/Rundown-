@@ -11,7 +11,8 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: Army
   m_EditorClassIdentifier: Assembly-CSharp::WaveConfig
-  EnemyPrefab: {fileID: 0}
-  TimeBetweenSpawns: 1
+  EnemyPrefab: {fileID: 1796342809452672, guid: 9d140b805ffa1b44e985d10e43f91352,
+    type: 2}
+  TimeBetweenSpawns: 15
   SpawnRandomFactor: 0.3
-  NumberOfEnemies: 5
+  NumberOfEnemies: 2

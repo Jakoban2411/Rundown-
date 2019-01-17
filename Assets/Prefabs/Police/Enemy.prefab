@@ -22,10 +22,12 @@ GameObject:
   - component: {fileID: 212983401768163092}
   - component: {fileID: 95415062689384298}
   - component: {fileID: 61704720593480534}
-  - component: {fileID: 114926279958240140}
   - component: {fileID: 50953165159802128}
   - component: {fileID: 114599321500995150}
   - component: {fileID: 82901746300363750}
+  - component: {fileID: 114487834047696418}
+  - component: {fileID: 114703461517295844}
+  - component: {fileID: 114008024156423624}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -89,7 +91,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 6e913982dbe72164e81dd13e504caf51, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -191,6 +193,31 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &114008024156423624
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1903794993941874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3217531a5971f1e4987903c759bae0e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Explosion: {fileID: 139366, guid: b185c1a9cf067374586d095111b15bd1, type: 2}
+  ExplosionSFX: {fileID: 8300000, guid: 15b4dd2b0e452da4ebba74ec0a42d8fc, type: 3}
+--- !u!114 &114487834047696418
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1903794993941874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9657ccfd800b2764597838f35b5b8b1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Health: 500
 --- !u!114 &114599321500995150
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -202,27 +229,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fc928911c9400c46a4a915d1407d18f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MovementSpeed: 10
---- !u!114 &114926279958240140
+  WaypointManager: {fileID: 0}
+  MovementSpeed: 5
+  sec: 2
+--- !u!114 &114703461517295844
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1903794993941874}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ccff9ba507719b6429c87f213205b6bf, type: 3}
+  m_Script: {fileID: 11500000, guid: add14ad1edfc928418d3a3f7d147510d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ReloadText: {fileID: 0}
-  MovementSpeed: 10
-  Bullet: {fileID: 0}
-  BulletSpeed: 0
-  Magazine: 0
-  LMGFireaudio: {fileID: 0}
-  LMGReloadaudio: {fileID: 0}
-  LMGStopFireAudio: {fileID: 0}
-  LMGStartAudio: {fileID: 0}
+  ShootTime: 3
+  Bullet: {fileID: 1464952005837080, guid: 61697e10d39750446b152066cd7ba9b4, type: 2}
+  Fire: {fileID: 8300000, guid: a428afabc72ee0d4c906f735dacdcc3c, type: 3}
+  BulletSpeed: 10
+  Players: []
 --- !u!212 &212983401768163092
 SpriteRenderer:
   m_ObjectHideFlags: 1

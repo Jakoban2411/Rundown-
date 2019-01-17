@@ -20,7 +20,7 @@ public class WaveConfig : ScriptableObject {
     {
         for (int enemycount = 0; enemycount< NumberOfEnemies; enemycount++)
         {
-            Instantiate<GameObject>(EnemyPrefab, SpawnPoint.transform.position, Quaternion.identity);
+           Instantiate<GameObject>(EnemyPrefab, SpawnPoint.transform.position, EnemyPrefab.transform.rotation);
             yield return new WaitForSeconds(TimeBetweenSpawns);
         }
     }
