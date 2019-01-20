@@ -18,10 +18,11 @@ public class EnemyMovement : MonoBehaviour {
         WaypointManager = FindObjectOfType<AIMoveDecision>();
         running = false;
         index0 = UnityEngine.Random.Range(0, WaypointManager.Waypoints.Count - 1);
+       // Debug.Log("Index0:"+ index0);
+       // Debug.Log("Count:" + WaypointManager.Waypoints.Count );
         altWaypoint = WaypointManager.Waypoints[index0];
         LookForward = new Vector2(altWaypoint.transform.position.x, altWaypoint.transform.position.y+0.2f);
     }
-
 
     // Update is called once per frame
     void Update () {
@@ -41,28 +42,31 @@ public class EnemyMovement : MonoBehaviour {
 	}
     IEnumerator RaycastAndMove()
     {
-        //Debug.Log("Waypoint List" + WaypointManager.Waypoints.Count);
-        running = true;
-        hit = Physics2D.Raycast(altWaypoint.transform.position, LookForward);
-        if (hit && hit.collider.gameObject.tag == "Pubic")    
+        //Debug.Log("ALT WAYPOINT" + altWaypoint.ToString());
+        if (altWaypoint)
         {
-            index0 = UnityEngine.Random.Range(0, WaypointManager.Waypoints.Count);
-            altWaypoint = WaypointManager.Waypoints[index0];
-            LookForward = new Vector2(altWaypoint.transform.position.x, altWaypoint.transform.position.y + 0.5f);
-            running = false;
-             yield return null;
-        }
-        else
-        {
-            Debug.Log("Index0: " + index0.ToString() + " ListCount: " + WaypointManager.Waypoints.Count);
-            if (WaypointManager.Waypoints[index0] != null)
+            running = true;
+            hit = Physics2D.Raycast(altWaypoint.transform.position, LookForward);
+            if (hit && hit.collider.gameObject.tag == "Pubic")
             {
-                Waypoint = WaypointManager.Waypoints[index0];
-                WaypointManager.Waypoints.RemoveAt(index0);
-                MoveToPosition = Waypoint.transform.position;
-                yield return new WaitForSeconds(sec);
-                WaypointManager.Waypoints.Add(Waypoint);
+                index0 = UnityEngine.Random.Range(0, WaypointManager.Waypoints.Count);
+                altWaypoint = WaypointManager.Waypoints[index0];
+                LookForward = new Vector2(altWaypoint.transform.position.x, altWaypoint.transform.position.y + 0.5f);
                 running = false;
+                yield return null;
+            }
+            else
+            {
+              //  Debug.Log("Index0: " + index0.ToString() + " ListCount: " + WaypointManager.Waypoints.Count);
+                if (WaypointManager.Waypoints[index0] != null)
+                {
+                    Waypoint = WaypointManager.Waypoints[index0];
+                    WaypointManager.Waypoints.RemoveAt(index0);
+                    MoveToPosition = Waypoint.transform.position;
+                    yield return new WaitForSeconds(sec);
+                    WaypointManager.Waypoints.Add(Waypoint);
+                    running = false;
+                }
             }
         }
     }

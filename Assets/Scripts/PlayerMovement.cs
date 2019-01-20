@@ -12,7 +12,6 @@ public class PlayerMovement : MonoBehaviour {
     [SerializeField] GameObject Bullet;
     public float BulletSpeed;
     GameObject ObjBullet;
-    Quaternion Rot;
     int BulletsFired;
     public int Magazine;
     bool Reloading,Firing,AudioPlaying;
@@ -29,8 +28,6 @@ public class PlayerMovement : MonoBehaviour {
         RightBorder = Camera.main.ViewportToWorldPoint(new Vector3(1, 0, Zdis)).x;
         TopBorder= Camera.main.ViewportToWorldPoint(new Vector3(0, 1, Zdis)).y;
         BottomBorder=Camera.main.ViewportToWorldPoint(new Vector3(0, 0, Zdis)).y;
-        Rot = Quaternion.LookRotation(new Vector3(0, 0, 0));
-        Rot *= Quaternion.Euler(0, 0, 90);
         BulletsFired = 0;
         Reloading = false;
         FadeAnim=ReloadText.GetComponent<Animation>();
@@ -90,7 +87,7 @@ public class PlayerMovement : MonoBehaviour {
         }
         
         
-            ObjBullet = Instantiate<GameObject>(Bullet, transform.position, Rot);
+            ObjBullet = Instantiate<GameObject>(Bullet, transform.position, Bullet.transform.rotation);
             Physics2D.IgnoreCollision(ObjBullet.GetComponent<Collider2D>(), GetComponent<Collider2D>());
             ObjBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(0, BulletSpeed);
             BulletsFired++;
@@ -101,8 +98,8 @@ public class PlayerMovement : MonoBehaviour {
         {
             if (Reloading == false)
             {
-                StartCoroutine(PlayAudio(LMGReloadaudio));
                 StartCoroutine(DisplayReload());
+                StartCoroutine(PlayAudio(LMGReloadaudio));
             }
         }
     }
@@ -112,7 +109,7 @@ public class PlayerMovement : MonoBehaviour {
         Reloading = true;
         FadeAnim.Play();
         AudioComponent.Play();
-        yield return new WaitForSeconds(FadeAnim.GetClip("Flash").length);
+        yield return new WaitForSeconds(LMGReloadaudio.length);
         BulletsFired = 0;
         Reloading = false;
         FadeAnim.Stop();
