@@ -10,13 +10,18 @@ public class UIManager : MonoBehaviour {
     [SerializeField] AIMoveDecision Manager;
     [SerializeField] PlayerMovement PlayerScript;
     [SerializeField] GameObject MoveToObject;
+    bool Started;
     GameObject Player;
+    AudioSource BGMSource;
     // Use this for initialization
     void Start () {
         Resume.enabled = false;
         Manager.enabled = false;
         PlayerScript.enabled = false;
+        BGMSource = GetComponent<AudioSource>();
         Player=PlayerScript.gameObject;
+        BGMSource.Stop();
+        Started = false;
 	}
 	public void StartPress()
     {
@@ -28,14 +33,37 @@ public class UIManager : MonoBehaviour {
     }
     public void ResumePress()
     {
-        Manager.enabled = true;
+        PauseControl(false);
+         Time.timeScale = 1;
     }
     // Update is called once per frame
     void Update () {
-		
-	}
-
-
+        if (Started == true)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                if (Time.timeScale == 1)
+                {
+                    Time.timeScale = 0;
+                    PauseControl(true);
+                }
+                else
+                {
+                    Time.timeScale = 1;
+                    PauseControl(false);
+                }
+            }
+        }
+       
+    }
+    void PauseControl(bool ctrl)
+    {
+        Manager.enabled = !ctrl;
+        Player.GetComponent<Renderer>().enabled = !ctrl;
+        Quit.gameObject.SetActive(ctrl);
+        Resume.gameObject.SetActive(ctrl);
+        
+    }
     IEnumerator PlayerMove()
     {
         while (Player.transform.position != MoveToObject.transform.position)
@@ -44,12 +72,11 @@ public class UIManager : MonoBehaviour {
             yield return new WaitForEndOfFrame();
             if (Player.transform.position == MoveToObject.transform.position)
             {
-                Debug.Log("Som0ething");
                 PlayerScript.enabled = true;
-            }
-            else
-            {
-                Debug.Log("Player: "+Player.transform.position.ToString()+" MoveObject: " + MoveToObject.transform.position.ToString());
+                BGMSource.Play();
+                Resume.enabled = true;
+                Started = true;
+                StopAllCoroutines();
             }
         }
         
