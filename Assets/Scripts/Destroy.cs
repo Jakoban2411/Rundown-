@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class Destroy : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    
+    void Start () {
 		
 	}
 	
@@ -15,10 +16,7 @@ public class Destroy : MonoBehaviour {
 	}
 
     private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag != "Enemy" && collision.gameObject.tag != "Pubic")
-        {
+    {     
             Destroy(collision.gameObject);
-        }
     }
 }
