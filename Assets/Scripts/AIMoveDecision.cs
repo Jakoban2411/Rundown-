@@ -7,20 +7,39 @@ public class AIMoveDecision : MonoBehaviour {
     [SerializeField] WaveConfig[] Waves;
     [SerializeField] float SecBetWave;
     public GameObject[] Players;
+    //WaveConfig[] InstantiatedWaves;
     public float lanepos,seconds;
     int WaveIndex;
     bool Spawned;
     [SerializeField] Spawner pubicspawner;
     // Use this for initialization
-    void Start () {
+    private void Start()
+    {
+        if (FindObjectsOfType<AIMoveDecision>().Length > 1)
+        {
+            Destroy(gameObject);
+        }
+        else
+            DontDestroyOnLoad(gameObject);          //Check i it works. Its getting deleted and a new AIMove is getting instantiaed on pressing start button
+    }
+    void OnEnable () {
         WaveIndex = 0;
         Spawned = false;
-        seconds = pubicspawner.Seconds;
+        seconds = FindObjectOfType<Spawner>().Seconds; 
         Players = GameObject.FindGameObjectsWithTag("Player");
+        StartCoroutine(StartWaves());
+        
+       /* for (int i = 0; i < Waves.Length; i++)
+        {
+            InstantiatedWaves[i] = ScriptableObject.CreateInstance<WaveConfig>(Waves[i]);
+       }*/
     }
-    
-	// Update is called once per frame
-	void Update () {
+    private void OnDisable()
+    {
+        StopAllCoroutines();
+    }
+    // Update is called once per frame
+    void Update () {
         if(Spawned==false)
         {
             StartCoroutine(StartWaves());

@@ -21,12 +21,17 @@ public class EnemyMovement : MonoBehaviour {
        // Debug.Log("Index0:"+ index0);
        // Debug.Log("Count:" + WaypointManager.Waypoints.Count );
         altWaypoint = WaypointManager.Waypoints[index0];
+        Debug.Log("ALT: "+altWaypoint.ToString());
         LookForward = new Vector2(altWaypoint.transform.position.x, altWaypoint.transform.position.y+0.2f);
     }
 
     // Update is called once per frame
     void Update () {
         //Debug.Log("Position :" + gameObject.transform.position.ToString());
+        if(WaypointManager==null)
+        {
+            WaypointManager = FindObjectOfType<AIMoveDecision>();
+        }
         if (WaypointManager.Waypoints.Count != 1)
         {
             if (running == true)
@@ -42,7 +47,7 @@ public class EnemyMovement : MonoBehaviour {
 	}
     IEnumerator RaycastAndMove()
     {
-        //Debug.Log("ALT WAYPOINT" + altWaypoint.ToString());
+        Debug.Log("ALT WAYPOINT " + altWaypoint.ToString()+" Index " + index0.ToString()+" COUNT: "+WaypointManager.Waypoints.Count);
         if (altWaypoint)
         {
             running = true;

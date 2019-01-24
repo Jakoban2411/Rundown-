@@ -2,29 +2,35 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using UnityEngine.SceneManagement;
 public class UIManager : MonoBehaviour {
     [SerializeField] Button Resume;
     [SerializeField] Button StartB;
     [SerializeField] Button Quit;
-    [SerializeField] AIMoveDecision Manager;
-    [SerializeField] PlayerMovement PlayerScript;
+    AIMoveDecision Manager;
+    PlayerMovement PlayerScript;
+    DamageSystrm PlayerDamage;
+    [SerializeField] string endgame;
     [SerializeField] GameObject MoveToObject;
     bool Started;
     GameObject Player;
     AudioSource BGMSource;
     // Use this for initialization
     void Start () {
+        Manager = FindObjectOfType<AIMoveDecision>();
         Resume.enabled = false;
         Manager.enabled = false;
+        PlayerScript = FindObjectOfType<PlayerMovement>();
         PlayerScript.enabled = false;
+        Player = PlayerScript.gameObject;
+        PlayerDamage = Player.GetComponent<DamageSystrm>();
         BGMSource = GetComponent<AudioSource>();
-        Player=PlayerScript.gameObject;
-        BGMSource.Stop();
+        BGMSource.Stop();       
         Started = false;
 	}
 	public void StartPress()
     {
+        Debug.Log("Manager Enabled");
         Manager.enabled = true;
         StartB.gameObject.SetActive(false);
         Quit.gameObject.SetActive(false);
@@ -54,7 +60,11 @@ public class UIManager : MonoBehaviour {
                 }
             }
         }
-       
+       if(PlayerDamage.Health<=0)
+        {
+            Manager.enabled = false;
+            SceneManager.LoadScene(endgame);
+        }
     }
     void PauseControl(bool ctrl)
     {
@@ -62,7 +72,10 @@ public class UIManager : MonoBehaviour {
         Player.GetComponent<Renderer>().enabled = !ctrl;
         Quit.gameObject.SetActive(ctrl);
         Resume.gameObject.SetActive(ctrl);
-        
+    }
+    public void GameQuit()
+    {
+        Application.Quit();
     }
     IEnumerator PlayerMove()
     {

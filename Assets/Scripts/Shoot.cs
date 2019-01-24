@@ -34,7 +34,7 @@ public class Shoot : MonoBehaviour {
         else
             multiplayer = false;
     }
-	
+    
 	// Update is called once per frame
 	void Update () {
 	    if(multiplayer==false)

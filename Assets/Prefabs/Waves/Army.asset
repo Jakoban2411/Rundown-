@@ -13,6 +13,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WaveConfig
   EnemyPrefab: {fileID: 1031001666382078, guid: f4d26feb248197643a263cd341ea0bbd,
     type: 2}
-  TimeBetweenSpawns: 15
+  TimeBetweenSpawns: 1
   SpawnRandomFactor: 0.3
-  NumberOfEnemies: 1
+  NumberOfEnemies: 5
