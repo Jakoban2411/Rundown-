@@ -13,19 +13,33 @@ public class BoomBoom : MonoBehaviour {
         isQuitting = false;
         AudPos = Camera.main.transform.position;
         SceneManager.activeSceneChanged += ChangeOnDestroy;
-        DontDestroyOnLoad(gameObject);
+        if (gameObject.transform.parent)
+        {
+            DontDestroyOnLoad(gameObject.transform.parent);
+        }
+        else
+            DontDestroyOnLoad(gameObject);
     }
     private void OnDestroy()
     {
+       // Debug.Log("Desroe");
           if (!isQuitting)
         {
             if (gameObject && InstantiatedExplosion==null)
             {
-                Debug.Log("NO BOOM?!");
+               // Debug.Log("NO BOOM?!");
                 InstantiatedExplosion = Instantiate<GameObject>(Explosion, transform.position, Quaternion.identity);
                 AudioSource.PlayClipAtPoint(ExplosionSFX,AudPos);
                 Destroy(InstantiatedExplosion, 2);
             }
+        }
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        //Debug.Log("collided");
+        if (collision.gameObject.tag == "Destroyer")
+        {
+            isQuitting = true;
         }
     }
     private void OnApplicationQuit()

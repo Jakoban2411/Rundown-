@@ -8,23 +8,63 @@ public class EnemyMovement : MonoBehaviour {
     float movementthisframe;
     [SerializeField]float sec;
     bool running,changed;
-    int index0=0;
+    [SerializeField]int index0;
+    public float Left, Right,mid;
     Vector2 LookForward;
     RaycastHit2D hit;
-    Vector2 MoveToPosition;
+    bool Blocked;
+    Vector2 MoveToPosition,Myposition,normalisedforce;
     WaypointProperties Waypoint,altWaypoint;
+    Rigidbody2D Mybody;
     // Use this for initialization
     void Start () {
         WaypointManager = FindObjectOfType<AIMoveDecision>();
         running = false;
         index0 = UnityEngine.Random.Range(0, WaypointManager.Waypoints.Count - 1);
-       // Debug.Log("Index0:"+ index0);
-       // Debug.Log("Count:" + WaypointManager.Waypoints.Count );
+        Left = WaypointManager.Players[0].GetComponent<PlayerMovement>().LeftBorder;
+        Right = WaypointManager.Players[0].GetComponent<PlayerMovement>().RightBorder;
+        mid = Right-(Right-Left) / 2;
+        Mybody = GetComponent<Rigidbody2D>();
+        // Debug.Log("Index0:"+ index0);
+        // Debug.Log("Count:" + WaypointManager.Waypoints.Count );
         altWaypoint = WaypointManager.Waypoints[index0];
         Debug.Log("ALT: "+altWaypoint.ToString());
         LookForward = new Vector2(altWaypoint.transform.position.x, altWaypoint.transform.position.y+0.2f);
+        AIMoveDecision.BlockInitialised += Move;
+        AIMoveDecision.UnBlockInitialised += Return;
+        Blocked = false;
     }
 
+    private void Return()
+    {
+        StopAllCoroutines();
+        Blocked = false;
+    }
+    private void OnDestroy()
+    {
+        AIMoveDecision.BlockInitialised -= Move;
+        AIMoveDecision.UnBlockInitialised -= Return;
+    }
+    private void Move()
+    {
+        StopAllCoroutines();
+        Blocked = true;
+        if (Right - gameObject.transform.position.x > mid)
+        {
+            StartCoroutine(SideSwipe(Left));
+        }
+        else
+            StartCoroutine(SideSwipe(Right));
+    }
+    IEnumerator SideSwipe(float Side)
+    {
+        while(Mathf.Abs(gameObject.transform.position.x) < Side)
+        {
+            Mybody.AddForce(new Vector2(MovementSpeed*Side,-MovementSpeed));
+            yield return null;
+        }
+       
+    }
     // Update is called once per frame
     void Update () {
         //Debug.Log("Position :" + gameObject.transform.position.ToString());
@@ -34,10 +74,12 @@ public class EnemyMovement : MonoBehaviour {
         }
         if (WaypointManager.Waypoints.Count != 1)
         {
-            if (running == true)
+            if (running == true && Blocked!=true)
             {
-                movementthisframe = MovementSpeed * Time.deltaTime;
-                transform.position = Vector2.MoveTowards(transform.position, MoveToPosition, movementthisframe);
+                Myposition = new Vector2(gameObject.transform.position.x, gameObject.transform.position.y);
+                if (Myposition != MoveToPosition)
+                    Mybody.AddForce((MoveToPosition - Myposition).normalized * MovementSpeed);
+                //transform.position = Vector2.MoveTowards(transform.position, MoveToPosition, movementthisframe);
             }
             else
             {

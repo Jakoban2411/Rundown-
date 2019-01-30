@@ -6,7 +6,7 @@ MonoImporter:
   defaultReferences:
   - Explosion: {fileID: 139366, guid: b185c1a9cf067374586d095111b15bd1, type: 2}
   - ExplosionSFX: {fileID: 8300000, guid: 15b4dd2b0e452da4ebba74ec0a42d8fc, type: 3}
-  executionOrder: 0
+  executionOrder: 150
   icon: {instanceID: 0}
   userData: 
   assetBundleName: 

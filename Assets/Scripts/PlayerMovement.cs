@@ -6,9 +6,9 @@ using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour {
     [SerializeField] GameObject ReloadText;
-    Vector3 deltapos,displacement,newpos;
+    Vector3 displacement,newpos;
     public float MovementSpeed;
-    float LeftBorder, RightBorder,TopBorder, BottomBorder,clipLength;
+    public float LeftBorder, RightBorder,TopBorder, BottomBorder,clipLength;
     [SerializeField] GameObject Bullet;
     public float BulletSpeed;
     GameObject ObjBullet;
@@ -21,6 +21,7 @@ public class PlayerMovement : MonoBehaviour {
     public AudioClip LMGStopFireAudio;
     public AudioClip LMGStartAudio;
     AudioSource AudioComponent;
+    Rigidbody2D PlayerBody;
     // Use this for initialization
     void Start () {
         float Zdis = Camera.main.transform.position.z - transform.position.z;
@@ -30,6 +31,7 @@ public class PlayerMovement : MonoBehaviour {
         BottomBorder=Camera.main.ViewportToWorldPoint(new Vector3(0, 0, Zdis)).y;
         BulletsFired = 0;
         Reloading = false;
+        PlayerBody = GetComponent<Rigidbody2D>();
         FadeAnim=ReloadText.GetComponent<Animation>();
         FadeAnim.Stop();
         AudioComponent = GetComponent<AudioSource>();
@@ -58,12 +60,15 @@ public class PlayerMovement : MonoBehaviour {
     private void Move(float displacementx, float displacementy)
     {
         displacement = new Vector3(displacementx, displacementy,0);
-        deltapos = displacement * Time.deltaTime*MovementSpeed;
-        newpos = transform.position + deltapos;
-        newpos.x=Mathf.Clamp(newpos.x, LeftBorder+.8f, RightBorder-.8f);
-        newpos.y=Mathf.Clamp(newpos.y, BottomBorder+.8f, TopBorder-.8f);
-        transform.position = newpos;
-
+        //deltapos = displacement * Time.deltaTime*MovementSpeed;
+        PlayerBody.AddForce(displacement*MovementSpeed);
+        if (transform.position.x > RightBorder || transform.position.x < LeftBorder || transform.position.y > TopBorder || transform.position.y < BottomBorder)
+        {
+            newpos = transform.position;
+            newpos.x = Mathf.Clamp(newpos.x, LeftBorder + .8f, RightBorder - .8f);
+            newpos.y = Mathf.Clamp(newpos.y, BottomBorder + .8f, TopBorder - .8f);
+            transform.position = newpos;
+        }
     }
 
     private void Fire()

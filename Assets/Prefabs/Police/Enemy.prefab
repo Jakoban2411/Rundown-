@@ -61,7 +61,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 1000000
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
@@ -247,6 +247,7 @@ MonoBehaviour:
   WaypointManager: {fileID: 0}
   MovementSpeed: 5
   sec: 2
+  index0: 0
 --- !u!114 &114703461517295844
 MonoBehaviour:
   m_ObjectHideFlags: 1
