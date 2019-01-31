@@ -73,11 +73,13 @@ public class AIMoveDecision : MonoBehaviour {
                 TimeInterval -= 10;
         }
         yield return new WaitForSeconds(3);
-        StartCoroutine(StartWaves());
+        Debug.Log("Something");
         UnBlockInitialised();
         blocked = false;
+        yield return StartCoroutine(StartWaves());
     }
-    private IEnumerator StartWaves()
+
+        private IEnumerator StartWaves()
     {
         Spawned = true;
         yield return StartCoroutine(Waves[WaveIndex].SpawnEnemy(gameObject.transform));

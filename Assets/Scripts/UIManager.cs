@@ -89,7 +89,7 @@ public class UIManager : MonoBehaviour {
                 BGMSource.Play();
                 Resume.enabled = true;
                 Started = true;
-                StopAllCoroutines();
+                StopCoroutine(PlayerMove());
             }
         }
         

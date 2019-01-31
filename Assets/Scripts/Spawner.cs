@@ -26,7 +26,7 @@ public class Spawner : MonoBehaviour
 
     private void Stop()
     {
-        StopAllCoroutines();
+        StopCoroutine(Spawn());
         Spawned = true;
         Debug.Log("SpawnedStop: " + Spawned.ToString());
     }

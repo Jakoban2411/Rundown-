@@ -16,6 +16,7 @@ public class EnemyMovement : MonoBehaviour {
     Vector2 MoveToPosition,Myposition,normalisedforce;
     WaypointProperties Waypoint,altWaypoint;
     Rigidbody2D Mybody;
+    public IEnumerator coroutine;
     // Use this for initialization
     void Start () {
         WaypointManager = FindObjectOfType<AIMoveDecision>();
@@ -37,7 +38,7 @@ public class EnemyMovement : MonoBehaviour {
 
     private void Return()
     {
-        StopAllCoroutines();
+        StopCoroutine(coroutine);
         Blocked = false;
     }
     private void OnDestroy()
@@ -47,14 +48,18 @@ public class EnemyMovement : MonoBehaviour {
     }
     private void Move()
     {
-        StopAllCoroutines();
+        StopCoroutine(RaycastAndMove());
         Blocked = true;
         if (Right - gameObject.transform.position.x > mid)
         {
-            StartCoroutine(SideSwipe(Left));
+            coroutine = SideSwipe(Left);
+            StartCoroutine(coroutine);
         }
         else
-            StartCoroutine(SideSwipe(Right));
+        {
+            coroutine = SideSwipe(Left);
+            StartCoroutine(coroutine);
+        }
     }
     IEnumerator SideSwipe(float Side)
     {
@@ -121,7 +126,7 @@ public class EnemyMovement : MonoBehaviour {
     {
         if (running == true)
         {
-            StopAllCoroutines();                                                                                           //Will lead to reloading text problem which also works on coroutines
+            StopCoroutine(RaycastAndMove());                                                                                           
             WaypointManager.Waypoints.Add(Waypoint);
         }
         StartCoroutine(RaycastAndMove());
@@ -132,7 +137,7 @@ public class EnemyMovement : MonoBehaviour {
     {
         if (running == true)
         {
-            StopAllCoroutines();                                                                                           //Will lead to reloading text problem which also works on coroutines
+            StopCoroutine(RaycastAndMove());                                                                                           
             WaypointManager.Waypoints.Add(Waypoint);
         }
         StartCoroutine(RaycastAndMove());
