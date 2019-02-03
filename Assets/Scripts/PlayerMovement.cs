@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour {
     [SerializeField] GameObject ReloadText;
     Vector3 displacement,newpos;
     public float MovementSpeed;
-    public float LeftBorder, RightBorder,TopBorder, BottomBorder,clipLength;
+    public float LeftBorder, RightBorder,TopBorder, BottomBorder,Mid,clipLength;
     [SerializeField] GameObject Bullet;
     public float BulletSpeed;
     GameObject ObjBullet;
@@ -29,6 +29,7 @@ public class PlayerMovement : MonoBehaviour {
         RightBorder = Camera.main.ViewportToWorldPoint(new Vector3(1, 0, Zdis)).x;
         TopBorder= Camera.main.ViewportToWorldPoint(new Vector3(0, 1, Zdis)).y;
         BottomBorder=Camera.main.ViewportToWorldPoint(new Vector3(0, 0, Zdis)).y;
+        Mid = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0, Zdis)).x;
         BulletsFired = 0;
         Reloading = false;
         PlayerBody = GetComponent<Rigidbody2D>();
@@ -53,7 +54,6 @@ public class PlayerMovement : MonoBehaviour {
         {
             AudioComponent.Stop();
             StartCoroutine(PlayAudio(LMGStopFireAudio));
-          
         }
 }
 
@@ -62,13 +62,13 @@ public class PlayerMovement : MonoBehaviour {
         displacement = new Vector3(displacementx, displacementy,0);
         //deltapos = displacement * Time.deltaTime*MovementSpeed;
         PlayerBody.AddForce(displacement*MovementSpeed);
-        if (transform.position.x > RightBorder || transform.position.x < LeftBorder || transform.position.y > TopBorder || transform.position.y < BottomBorder)
+       /* if (transform.position.x > RightBorder || transform.position.x < LeftBorder || transform.position.y > TopBorder || transform.position.y < BottomBorder)
         {
             newpos = transform.position;
             newpos.x = Mathf.Clamp(newpos.x, LeftBorder + .8f, RightBorder - .8f);
             newpos.y = Mathf.Clamp(newpos.y, BottomBorder + .8f, TopBorder - .8f);
             transform.position = newpos;
-        }
+        }*/
     }
 
     private void Fire()

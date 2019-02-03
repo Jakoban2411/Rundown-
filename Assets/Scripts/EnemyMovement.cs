@@ -16,7 +16,9 @@ public class EnemyMovement : MonoBehaviour {
     Vector2 MoveToPosition,Myposition,normalisedforce;
     WaypointProperties Waypoint,altWaypoint;
     Rigidbody2D Mybody;
+    [SerializeField] float CollisionDamgage;
     public IEnumerator coroutine;
+    float XDirection,YDirection;
     // Use this for initialization
     void Start () {
         WaypointManager = FindObjectOfType<AIMoveDecision>();
@@ -24,13 +26,12 @@ public class EnemyMovement : MonoBehaviour {
         index0 = UnityEngine.Random.Range(0, WaypointManager.Waypoints.Count - 1);
         Left = WaypointManager.Players[0].GetComponent<PlayerMovement>().LeftBorder;
         Right = WaypointManager.Players[0].GetComponent<PlayerMovement>().RightBorder;
-        mid = Right-(Right-Left) / 2;
+        mid = WaypointManager.Players[0].GetComponent<PlayerMovement>().Mid;
         Mybody = GetComponent<Rigidbody2D>();
         // Debug.Log("Index0:"+ index0);
         // Debug.Log("Count:" + WaypointManager.Waypoints.Count );
         altWaypoint = WaypointManager.Waypoints[index0];
-        Debug.Log("ALT: "+altWaypoint.ToString());
-        LookForward = new Vector2(altWaypoint.transform.position.x, altWaypoint.transform.position.y+0.2f);
+       LookForward = new Vector2(altWaypoint.transform.position.x, altWaypoint.transform.position.y+0.2f);
         AIMoveDecision.BlockInitialised += Move;
         AIMoveDecision.UnBlockInitialised += Return;
         Blocked = false;
@@ -40,32 +41,37 @@ public class EnemyMovement : MonoBehaviour {
     {
         StopCoroutine(coroutine);
         Blocked = false;
+        Debug.Log("I DID RUN!Running: " + running.ToString());
     }
     private void OnDestroy()
     {
         AIMoveDecision.BlockInitialised -= Move;
         AIMoveDecision.UnBlockInitialised -= Return;
+        Debug.Log("ROADBLOCK!: " + running.ToString());
     }
     private void Move()
     {
         StopCoroutine(RaycastAndMove());
         Blocked = true;
-        if (Right - gameObject.transform.position.x > mid)
+        if (gameObject.transform.position.x > mid)
         {
-            coroutine = SideSwipe(Left);
+            coroutine = SideSwipe(Right);
             StartCoroutine(coroutine);
         }
         else
         {
             coroutine = SideSwipe(Left);
+            Debug.Log("Coroutine with Left: " + Left.ToString());
             StartCoroutine(coroutine);
         }
     }
     IEnumerator SideSwipe(float Side)
     {
-        while(Mathf.Abs(gameObject.transform.position.x) < Side)
+        Debug.Log("Side: " + Side.ToString() + " My: " + gameObject.transform.position.x);
+        while(Mathf.Abs(gameObject.transform.position.x) < Mathf.Abs(Side))
         {
-            Mybody.AddForce(new Vector2(MovementSpeed*Side,-MovementSpeed));
+           // Debug.Log("Adding");
+            Mybody.AddForce(new Vector2(MovementSpeed*Side*10f/Mathf.Abs(Side),-MovementSpeed));
             yield return null;
         }
        
@@ -77,24 +83,31 @@ public class EnemyMovement : MonoBehaviour {
         {
             WaypointManager = FindObjectOfType<AIMoveDecision>();
         }
-        if (WaypointManager.Waypoints.Count != 1)
+        if (Blocked != true)
         {
-            if (running == true && Blocked!=true)
+            if (WaypointManager.Waypoints.Count != 1)
             {
-                Myposition = new Vector2(gameObject.transform.position.x, gameObject.transform.position.y);
-                if (Myposition != MoveToPosition)
-                    Mybody.AddForce((MoveToPosition - Myposition).normalized * MovementSpeed);
-                //transform.position = Vector2.MoveTowards(transform.position, MoveToPosition, movementthisframe);
-            }
-            else
-            {
-                StartCoroutine(RaycastAndMove());
+                Debug.Log("Running: " + running.ToString());
+                if (running == true)
+                {
+                    Myposition = new Vector2(gameObject.transform.position.x, gameObject.transform.position.y);
+                    if (Myposition != MoveToPosition)
+                    {
+                      //  Debug.Log("Added: " + ((MoveToPosition - Myposition).normalized * MovementSpeed*5).ToString());
+                        Mybody.AddForce((MoveToPosition - Myposition).normalized * MovementSpeed*5);
+                        //transform.position = Vector2.MoveTowards(transform.position, MoveToPosition, movementthisframe);
+                    }
+                }
+                else
+                {
+                    StartCoroutine(RaycastAndMove());
+                }
             }
         }
 	}
     IEnumerator RaycastAndMove()
     {
-        Debug.Log("ALT WAYPOINT " + altWaypoint.ToString()+" Index " + index0.ToString()+" COUNT: "+WaypointManager.Waypoints.Count);
+        //Debug.Log("ALT WAYPOINT " + altWaypoint.ToString()+" Index " + index0.ToString()+" COUNT: "+WaypointManager.Waypoints.Count);
         if (altWaypoint)
         {
             running = true;
@@ -113,10 +126,8 @@ public class EnemyMovement : MonoBehaviour {
                 if (WaypointManager.Waypoints[index0] != null)
                 {
                     Waypoint = WaypointManager.Waypoints[index0];
-                    WaypointManager.Waypoints.RemoveAt(index0);
                     MoveToPosition = Waypoint.transform.position;
                     yield return new WaitForSeconds(sec);
-                    WaypointManager.Waypoints.Add(Waypoint);
                     running = false;
                 }
             }
@@ -124,22 +135,41 @@ public class EnemyMovement : MonoBehaviour {
     }
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (running == true)
+        if (!Blocked)
         {
-            StopCoroutine(RaycastAndMove());                                                                                           
-            WaypointManager.Waypoints.Add(Waypoint);
+            if (running == true)
+            {
+                StopCoroutine(RaycastAndMove());
+               
+            }
+            StartCoroutine(RaycastAndMove());
         }
-        StartCoroutine(RaycastAndMove());
-
     }
     
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (running == true)
+        if(collision.gameObject.tag=="Player")
         {
-            StopCoroutine(RaycastAndMove());                                                                                           
-            WaypointManager.Waypoints.Add(Waypoint);
+            collision.gameObject.GetComponent<DamageSystrm>().Damage(CollisionDamgage);
         }
-        StartCoroutine(RaycastAndMove());
+        if (!Blocked)
+        {
+            if (Mathf.Abs(collision.gameObject.transform.position.y) - Mathf.Abs(gameObject.transform.position.y) > 0)
+            {
+                YDirection = MovementSpeed;
+            }
+            else
+                YDirection = -MovementSpeed;
+            if (Mathf.Abs(collision.gameObject.transform.position.x) > Mathf.Abs(gameObject.transform.position.x))
+                XDirection = Left;
+            else
+                XDirection = Right;
+            Mybody.AddForce(new Vector2(XDirection * MovementSpeed * 10, YDirection * 100));
+            if (running == true)
+            {
+                StopCoroutine(RaycastAndMove());
+            }
+            StartCoroutine(RaycastAndMove());
+    }
     }
 }

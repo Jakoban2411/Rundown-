@@ -64,7 +64,6 @@ public class AIMoveDecision : MonoBehaviour {
         BlockInitialised();
         blocked = true;
         int Rand = UnityEngine.Random.Range(0, sizeblock);
-        StopAllCoroutines();
         Blocker = Instantiate<GameObject>(RoadBlocks[Rand], gameObject.transform.position, RoadBlocks[Rand].transform.rotation);
         LastTime = Time.timeSinceLevelLoad;
         foreach (int stage in Stages)
@@ -72,8 +71,7 @@ public class AIMoveDecision : MonoBehaviour {
             if (LastTime > stage)
                 TimeInterval -= 10;
         }
-        yield return new WaitForSeconds(3);
-        Debug.Log("Something");
+        yield return new WaitForSeconds(10);
         UnBlockInitialised();
         blocked = false;
         yield return StartCoroutine(StartWaves());

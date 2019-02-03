@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour {
     PlayerMovement PlayerScript;
     DamageSystrm PlayerDamage;
     [SerializeField] string endgame;
+    GameObject Clampers;
     [SerializeField] GameObject MoveToObject;
     bool Started;
     GameObject Player;
@@ -22,11 +23,13 @@ public class UIManager : MonoBehaviour {
         Manager.enabled = false;
         PlayerScript = FindObjectOfType<PlayerMovement>();
         PlayerScript.enabled = false;
+        Clampers = GameObject.FindGameObjectWithTag("Container");
         Player = PlayerScript.gameObject;
         PlayerDamage = Player.GetComponent<DamageSystrm>();
         BGMSource = GetComponent<AudioSource>();
         BGMSource.Stop();       
         Started = false;
+        Clampers.SetActive(false);
 	}
 	public void StartPress()
     {
@@ -62,7 +65,7 @@ public class UIManager : MonoBehaviour {
         }
        if(PlayerDamage.Health<=0)
         {
-            Manager.enabled = false;
+            Manager.enabled = false;            
             SceneManager.LoadScene(endgame);
         }
     }
@@ -90,8 +93,9 @@ public class UIManager : MonoBehaviour {
                 Resume.enabled = true;
                 Started = true;
                 StopCoroutine(PlayerMove());
+                Clampers.SetActive(true);
+               
             }
         }
-        
     }
 }

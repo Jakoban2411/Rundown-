@@ -8,27 +8,28 @@ public class Spawner : MonoBehaviour
     [SerializeField]GameObject[] PubicCars;
     int Carindex, LaneIndex;
     public float Seconds;
-    bool Spawned;
+    bool Spawned,Blocked;
 	// Use this for initialization
 	void Start ()
     {
         AIMoveDecision.BlockInitialised += Stop;
         AIMoveDecision.UnBlockInitialised += SpawnTrue;
         Spawned = false;
+        Blocked = false;
 	}
 
     private void SpawnTrue()
     {
-        Spawned = false;
-        Debug.Log("SpawnedStart: " + Spawned.ToString());
+        Debug.Log("Started");
+        Blocked = false;
         StartCoroutine(Spawn());
     }
 
     private void Stop()
     {
+        Debug.Log("Stopped");
         StopCoroutine(Spawn());
-        Spawned = true;
-        Debug.Log("SpawnedStop: " + Spawned.ToString());
+        Blocked= true;
     }
     private void OnDestroy()
     {
@@ -38,9 +39,8 @@ public class Spawner : MonoBehaviour
     // Update is called once per frame
     void Update ()
     {
-         if(!Spawned)
+         if(!Spawned && !Blocked)
         {
-            Debug.Log("SpawnedUpdate: " + Spawned.ToString());
             StartCoroutine(Spawn());
         }
         
