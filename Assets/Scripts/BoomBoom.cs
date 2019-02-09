@@ -8,6 +8,7 @@ public class BoomBoom : MonoBehaviour {
     bool isQuitting;
     Vector3 AudPos;
     [SerializeField] AudioClip ExplosionSFX;
+    GameObject Owner;
 	// Use this for initialization
 	void Start () {
         isQuitting = false;
@@ -15,10 +16,11 @@ public class BoomBoom : MonoBehaviour {
         SceneManager.activeSceneChanged += ChangeOnDestroy;
         if (gameObject.transform.parent)
         {
-            DontDestroyOnLoad(gameObject.transform.parent);
+           Owner=gameObject.transform.parent.gameObject;
         }
         else
-            DontDestroyOnLoad(gameObject);
+            Owner=gameObject;
+        DontDestroyOnLoad(Owner);
     }
     private void OnDestroy()
     {
@@ -50,8 +52,9 @@ public class BoomBoom : MonoBehaviour {
     private void ChangeOnDestroy(Scene current,Scene next)
     {
         Debug.Log("uasfiu");
+        Debug.Log("Object: "+gameObject.name);
         isQuitting = true;
-        Destroy(gameObject);
+        Destroy(Owner);
         SceneManager.activeSceneChanged -= ChangeOnDestroy;
     }
   

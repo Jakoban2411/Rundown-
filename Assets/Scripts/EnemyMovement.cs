@@ -39,6 +39,7 @@ public class EnemyMovement : MonoBehaviour {
 
     private void Return()
     {
+        if(coroutine!=null)
         StopCoroutine(coroutine);
         Blocked = false;
         Debug.Log("I DID RUN!Running: " + running.ToString());

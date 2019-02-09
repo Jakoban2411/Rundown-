@@ -33,8 +33,7 @@ public class UIManager : MonoBehaviour {
 	}
 	public void StartPress()
     {
-        Debug.Log("Manager Enabled");
-        Manager.enabled = true;
+       Manager.enabled = true;
         StartB.gameObject.SetActive(false);
         Quit.gameObject.SetActive(false);
         Resume.gameObject.SetActive(false);
