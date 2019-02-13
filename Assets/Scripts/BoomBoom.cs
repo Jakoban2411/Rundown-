@@ -35,6 +35,7 @@ public class BoomBoom : MonoBehaviour {
                 Destroy(InstantiatedExplosion, 2);
             }
         }
+        SceneManager.activeSceneChanged -= ChangeOnDestroy;
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -55,7 +56,6 @@ public class BoomBoom : MonoBehaviour {
         Debug.Log("Object: "+gameObject.name);
         isQuitting = true;
         Destroy(Owner);
-        SceneManager.activeSceneChanged -= ChangeOnDestroy;
     }
   
     // Update is called once per frame

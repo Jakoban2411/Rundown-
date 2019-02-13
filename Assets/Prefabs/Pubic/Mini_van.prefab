@@ -114,6 +114,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Health: 100
+  HealthDropProb: 0
+  Pickup: {fileID: 1208241291225538, guid: 8429045bf6d19244fb70bb843b6a64b6, type: 2}
 --- !u!114 &114674737020100332
 MonoBehaviour:
   m_ObjectHideFlags: 1

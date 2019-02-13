@@ -47,8 +47,7 @@ public class EnemyMovement : MonoBehaviour {
     private void OnDestroy()
     {
         AIMoveDecision.BlockInitialised -= Move;
-        AIMoveDecision.UnBlockInitialised -= Return;
-        Debug.Log("ROADBLOCK!: " + running.ToString());
+        AIMoveDecision.UnBlockInitialised -= Return; 
     }
     private void Move()
     {
@@ -88,7 +87,6 @@ public class EnemyMovement : MonoBehaviour {
         {
             if (WaypointManager.Waypoints.Count != 1)
             {
-                Debug.Log("Running: " + running.ToString());
                 if (running == true)
                 {
                     Myposition = new Vector2(gameObject.transform.position.x, gameObject.transform.position.y);
@@ -171,6 +169,6 @@ public class EnemyMovement : MonoBehaviour {
                 StopCoroutine(RaycastAndMove());
             }
             StartCoroutine(RaycastAndMove());
-    }
+        }
     }
 }
