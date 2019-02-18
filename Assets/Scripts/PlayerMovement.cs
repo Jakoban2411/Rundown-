@@ -22,6 +22,7 @@ public class PlayerMovement : MonoBehaviour {
     public AudioClip LMGStartAudio;
     AudioSource AudioComponent;
     Rigidbody2D PlayerBody;
+    public GameObject Health;
     // Use this for initialization
     void Start () {
         float Zdis = Camera.main.transform.position.z - transform.position.z;
@@ -37,6 +38,7 @@ public class PlayerMovement : MonoBehaviour {
         FadeAnim.Stop();
         AudioComponent = GetComponent<AudioSource>();
         AudioComponent.clip = LMGFireaudio;
+        
     }
 
     // Update is called once per frame

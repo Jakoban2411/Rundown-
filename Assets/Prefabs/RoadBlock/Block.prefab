@@ -1429,8 +1429,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9657ccfd800b2764597838f35b5b8b1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MaxHealth: 500
+  HealthDropProb: 1
   Health: 500
-  HealthDropProb: 0
   Pickup: {fileID: 1208241291225538, guid: 8429045bf6d19244fb70bb843b6a64b6, type: 2}
 --- !u!114 &114064475147527028
 MonoBehaviour:
@@ -1467,8 +1468,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9657ccfd800b2764597838f35b5b8b1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MaxHealth: 500
+  HealthDropProb: 1
   Health: 500
-  HealthDropProb: 0
   Pickup: {fileID: 1208241291225538, guid: 8429045bf6d19244fb70bb843b6a64b6, type: 2}
 --- !u!114 &114359724131750528
 MonoBehaviour:
@@ -1558,8 +1560,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9657ccfd800b2764597838f35b5b8b1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MaxHealth: 500
+  HealthDropProb: 1
   Health: 500
-  HealthDropProb: 0
   Pickup: {fileID: 1208241291225538, guid: 8429045bf6d19244fb70bb843b6a64b6, type: 2}
 --- !u!114 &114443214150637884
 MonoBehaviour:
@@ -1572,8 +1575,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9657ccfd800b2764597838f35b5b8b1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MaxHealth: 500
+  HealthDropProb: 1
   Health: 500
-  HealthDropProb: 0
   Pickup: {fileID: 1208241291225538, guid: 8429045bf6d19244fb70bb843b6a64b6, type: 2}
 --- !u!114 &114583036838395338
 MonoBehaviour:
@@ -1598,8 +1602,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9657ccfd800b2764597838f35b5b8b1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MaxHealth: 500
+  HealthDropProb: 1
   Health: 500
-  HealthDropProb: 0
   Pickup: {fileID: 1208241291225538, guid: 8429045bf6d19244fb70bb843b6a64b6, type: 2}
 --- !u!114 &114612596338390278
 MonoBehaviour:
@@ -1612,8 +1617,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9657ccfd800b2764597838f35b5b8b1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MaxHealth: 500
+  HealthDropProb: 1
   Health: 500
-  HealthDropProb: 0
   Pickup: {fileID: 1208241291225538, guid: 8429045bf6d19244fb70bb843b6a64b6, type: 2}
 --- !u!114 &114658884600182658
 MonoBehaviour:
@@ -1675,8 +1681,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9657ccfd800b2764597838f35b5b8b1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MaxHealth: 500
+  HealthDropProb: 1
   Health: 500
-  HealthDropProb: 0
   Pickup: {fileID: 1208241291225538, guid: 8429045bf6d19244fb70bb843b6a64b6, type: 2}
 --- !u!114 &114958804017223688
 MonoBehaviour:

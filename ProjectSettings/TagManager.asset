@@ -9,6 +9,7 @@ TagManager:
   - Destroyer
   - Container
   - Pickups
+  - Waypoint
   layers:
   - Default
   - TransparentFX

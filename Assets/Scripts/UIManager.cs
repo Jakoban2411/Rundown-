@@ -16,6 +16,8 @@ public class UIManager : MonoBehaviour {
     bool Started;
     GameObject Player;
     AudioSource BGMSource;
+    Text TimeScore;
+    float StartTime;
     // Use this for initialization
     void Start () {
         Manager = FindObjectOfType<AIMoveDecision>();
@@ -30,7 +32,10 @@ public class UIManager : MonoBehaviour {
         BGMSource.Stop();       
         Started = false;
         Clampers.SetActive(false);
-	}
+        PlayerScript.Health.SetActive(false);
+        TimeScore = gameObject.transform.Find("HighScore").transform.GetChild(0).GetComponent<Text>();
+        DontDestroyOnLoad(TimeScore);
+    }
 	public void StartPress()
     {
        Manager.enabled = true;
@@ -48,6 +53,7 @@ public class UIManager : MonoBehaviour {
     void Update () {
         if (Started == true)
         {
+            TimeScore.text = (Time.timeSinceLevelLoad - StartTime).ToString("F2");
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 if (Time.timeScale == 1)
@@ -64,7 +70,8 @@ public class UIManager : MonoBehaviour {
         }
        if(PlayerDamage.Health<=0)
         {
-            Manager.enabled = false;            
+            Manager.enabled = false;
+            Manager.HighScore = Time.timeSinceLevelLoad - StartTime;
             SceneManager.LoadScene(endgame);
         }
     }
@@ -93,7 +100,8 @@ public class UIManager : MonoBehaviour {
                 Started = true;
                 StopCoroutine(PlayerMove());
                 Clampers.SetActive(true);
-               
+                PlayerScript.Health.SetActive(true);
+                StartTime = Time.timeSinceLevelLoad;
             }
         }
     }

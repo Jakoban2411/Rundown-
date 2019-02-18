@@ -294,6 +294,7 @@ MonoBehaviour:
   LMGReloadaudio: {fileID: 8300000, guid: 5f30f6a26298ea04290f9d3dce1f5572, type: 3}
   LMGStopFireAudio: {fileID: 8300000, guid: f516b0a869b5a7744887730fa7c25e28, type: 3}
   LMGStartAudio: {fileID: 8300000, guid: aa8714a240c90da4fbcf7d4dd2ae56df, type: 3}
+  Health: {fileID: 1381963431914554, guid: 76e806364e0140c4bab86d07133a737b, type: 2}
 --- !u!114 &114536283372372042
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -305,8 +306,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9657ccfd800b2764597838f35b5b8b1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Health: 150
+  MaxHealth: 1000
   HealthDropProb: 0
+  Health: 150
   Pickup: {fileID: 0}
 --- !u!212 &212362379582101766
 SpriteRenderer:

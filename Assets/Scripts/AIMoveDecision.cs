@@ -5,7 +5,8 @@ using UnityEngine;
 public class AIMoveDecision : MonoBehaviour {
     public List<WaypointProperties> Waypoints;
     [SerializeField] WaveConfig[] Waves;
-    [SerializeField] float SecBetWave,TimeInterval;
+    [SerializeField] float SecBetWave;
+    float TimeInterval;
     public float[] Stages;
     public GameObject[] Players;
     [SerializeField] GameObject[] RoadBlocks;
@@ -16,21 +17,25 @@ public class AIMoveDecision : MonoBehaviour {
     bool Spawned;
     int sizeblock;
     GameObject Blocker;
+    int index;
     public bool blocked;
     [SerializeField] Spawner pubicspawner;
     public delegate void Block();
     public static event Block BlockInitialised;
     public delegate void UnBlock();
     public static event UnBlock UnBlockInitialised;
+    public float HighScore;
     // Use this for initialization
     private void Start()
     {
+        index = 0;
        if (FindObjectsOfType<AIMoveDecision>().Length > 1)
         {
             Destroy(gameObject);
         }
         else
             DontDestroyOnLoad(gameObject);          //Check if it works. Its getting deleted and a new AIMove is getting instantiaed on pressing start button
+        TimeInterval = Stages[index];
     }
     void OnEnable () {
         sizeblock = RoadBlocks.Length;
@@ -49,7 +54,7 @@ public class AIMoveDecision : MonoBehaviour {
     private void OnDisable()
     {
         StopAllCoroutines();
-    }
+    } 
     // Update is called once per frame
     void Update () {
         if(Spawned==false)
@@ -66,10 +71,14 @@ public class AIMoveDecision : MonoBehaviour {
         int Rand = UnityEngine.Random.Range(0, sizeblock);
         Blocker = Instantiate<GameObject>(RoadBlocks[Rand], gameObject.transform.position, RoadBlocks[Rand].transform.rotation);
         LastTime = Time.timeSinceLevelLoad;
-        foreach (int stage in Stages)
+        if(index==Stages.Length-1)
         {
-            if (LastTime > stage)
-                TimeInterval -= 10;
+            index = 0;
+        }
+        else
+        {
+            index++;
+            TimeInterval = Stages[index]+UnityEngine.Random.Range(-2,2);
         }
         yield return new WaitForSeconds(10);
         UnBlockInitialised();

@@ -71,7 +71,7 @@ public class EnemyMovement : MonoBehaviour {
         while(Mathf.Abs(gameObject.transform.position.x) < Mathf.Abs(Side))
         {
            // Debug.Log("Adding");
-            Mybody.AddForce(new Vector2(MovementSpeed*Side*10f/Mathf.Abs(Side),-MovementSpeed));
+            Mybody.AddForce(new Vector2(MovementSpeed*Side*5f/Mathf.Abs(Side),-MovementSpeed));
             yield return null;
         }
        
@@ -85,10 +85,9 @@ public class EnemyMovement : MonoBehaviour {
         }
         if (Blocked != true)
         {
-            if (WaypointManager.Waypoints.Count != 1)
-            {
                 if (running == true)
                 {
+                    Debug.Log("Running:" + running.ToString()+" For object:"+ gameObject.name+" To: "+MoveToPosition.ToString());
                     Myposition = new Vector2(gameObject.transform.position.x, gameObject.transform.position.y);
                     if (Myposition != MoveToPosition)
                     {
@@ -99,15 +98,14 @@ public class EnemyMovement : MonoBehaviour {
                 }
                 else
                 {
+                    Debug.Log("Running:" + running.ToString());
                     StartCoroutine(RaycastAndMove());
                 }
-            }
         }
 	}
     IEnumerator RaycastAndMove()
     {
-        //Debug.Log("ALT WAYPOINT " + altWaypoint.ToString()+" Index " + index0.ToString()+" COUNT: "+WaypointManager.Waypoints.Count);
-        if (altWaypoint)
+        /* if (altWaypoint)
         {
             running = true;
             hit = Physics2D.Raycast(altWaypoint.transform.position, LookForward);
@@ -130,6 +128,26 @@ public class EnemyMovement : MonoBehaviour {
                     running = false;
                 }
             }
+        }*/
+        running = true;
+        hit = Physics2D.Raycast(altWaypoint.transform.position, LookForward);
+        if (hit.transform.gameObject != null && hit.transform.gameObject.CompareTag("Waypoint")==false)
+        {
+            Debug.Log("Hit: " + hit.transform.gameObject.name);
+            index0 = UnityEngine.Random.Range(0, WaypointManager.Waypoints.Count);
+            altWaypoint = WaypointManager.Waypoints[index0];
+            LookForward = new Vector2(altWaypoint.transform.position.x, altWaypoint.transform.position.y + 0.5f);
+            hit = Physics2D.Raycast(altWaypoint.transform.position, LookForward);
+            //running = false;
+            yield return null;
+        }
+        else
+        {
+            Waypoint = WaypointManager.Waypoints[index0];
+            MoveToPosition = Waypoint.transform.position;
+            Debug.Log("Move: " + MoveToPosition.ToString() + " for " + gameObject.name);
+            yield return new WaitForSeconds(sec);
+            running = false;
         }
     }
     private void OnCollisionStay2D(Collision2D collision)
