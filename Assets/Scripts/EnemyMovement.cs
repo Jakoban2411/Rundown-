@@ -7,7 +7,8 @@ public class EnemyMovement : MonoBehaviour {
     public float MovementSpeed=2;
     float movementthisframe;
     [SerializeField]float sec;
-    bool running,changed;
+    bool changed;
+    public bool running;
     [SerializeField]int index0;
     public float Left, Right,mid;
     Vector2 LookForward;
@@ -42,8 +43,7 @@ public class EnemyMovement : MonoBehaviour {
         if(coroutine!=null)
         StopCoroutine(coroutine);
         Blocked = false;
-        Debug.Log("I DID RUN!Running: " + running.ToString());
-    }
+     }
     private void OnDestroy()
     {
         AIMoveDecision.BlockInitialised -= Move;
@@ -138,7 +138,7 @@ public class EnemyMovement : MonoBehaviour {
             altWaypoint = WaypointManager.Waypoints[index0];
             LookForward = new Vector2(altWaypoint.transform.position.x, altWaypoint.transform.position.y + 0.5f);
             hit = Physics2D.Raycast(altWaypoint.transform.position, LookForward);
-            //running = false;
+            running = false;
             yield return null;
         }
         else
@@ -148,6 +148,7 @@ public class EnemyMovement : MonoBehaviour {
             Debug.Log("Move: " + MoveToPosition.ToString() + " for " + gameObject.name);
             yield return new WaitForSeconds(sec);
             running = false;
+            Debug.Log("Running set to false running: "+ running.ToString()+" for " + gameObject.name);
         }
     }
     private void OnCollisionStay2D(Collision2D collision)

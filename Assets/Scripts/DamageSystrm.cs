@@ -5,8 +5,10 @@ using UnityEngine;
 public class DamageSystrm : MonoBehaviour {
     public float MaxHealth,HealthDropProb;
     [HideInInspector] public float Health;
-    public GameObject Pickup;
+    public GameObject[] Pickup;
     GameObject Healthsprite;
+    int index;
+    GameObject PickupSprite;
 	// Use this for initialization
 	void Start () {
         Health = MaxHealth;
@@ -14,6 +16,7 @@ public class DamageSystrm : MonoBehaviour {
         {
             Healthsprite = gameObject.GetComponent<PlayerMovement>().Health;
         }
+        index = UnityEngine.Random.Range(0, Pickup.Length);
     }
 	
 	// Update is called once per frame
@@ -25,22 +28,17 @@ public class DamageSystrm : MonoBehaviour {
         Health -= HitPoints;
         if (Health<=0)
         {
-            if(!Healthsprite)
-            {
-                if(Random.value>HealthDropProb)
+                if(Random.value>=Pickup[index].GetComponent<Pickup>().DropProbability)
                 {
-                    Instantiate<GameObject>(Pickup,transform.position,Pickup.transform.rotation);
+                    Instantiate<GameObject>(Pickup[index],transform.position,Pickup[index].transform.rotation);
                 }
 
-            }
             Destroy(gameObject);
         }
         else
         {
             if(Healthsprite)
-            {
                 Healthsprite.transform.localScale = Healthsprite.transform.localScale* (Health/MaxHealth);
-            }
         }
     }
 }
