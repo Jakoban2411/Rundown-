@@ -21,12 +21,15 @@ public class MoveBack : MonoBehaviour {
             if (Time.timeScale == 1)
                 movethisframe = new Vector3(0, -MoveSpeed * Time.deltaTime, 0);
             else
-                movethisframe = new Vector3(0, -Time.deltaTime / (MoveSpeed*10), 0);
+                movethisframe = new Vector3(0, -Time.deltaTime /10*MoveSpeed, 0);
             MyBody.AddForce(movethisframe);
         }
         else
         {
-            movethisframe = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y - MoveSpeed * Time.deltaTime, gameObject.transform.position.z);
+            if (Time.timeScale == 1)
+                movethisframe = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y - MoveSpeed * Time.deltaTime, gameObject.transform.position.z);
+            else
+                movethisframe = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y -Time.deltaTime/ MoveSpeed, gameObject.transform.position.z);
             gameObject.transform.position = movethisframe;
         }
     }

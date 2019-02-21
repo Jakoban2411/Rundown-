@@ -20,14 +20,12 @@ public class Spawner : MonoBehaviour
 
     private void SpawnTrue()
     {
-        Debug.Log("Started");
         Blocked = false;
         StartCoroutine(Spawn());
     }
 
     private void Stop()
     {
-        Debug.Log("Stopped");
         StopCoroutine(Spawn());
         Blocked= true;
     }
@@ -41,14 +39,15 @@ public class Spawner : MonoBehaviour
     {
          if(!Spawned && !Blocked)
         {
+            if(Time.timeScale==1)
             StartCoroutine(Spawn());
         }
         
 	}
     IEnumerator Spawn()
     {
-        Carindex = UnityEngine.Random.Range(0, PubicCars.Length - 1);
-        LaneIndex = UnityEngine.Random.Range(0,SpawnPoints.Length - 1);
+        Carindex = UnityEngine.Random.Range(0, PubicCars.Length);
+        LaneIndex = UnityEngine.Random.Range(0,SpawnPoints.Length );
         Instantiate<GameObject>(PubicCars[Carindex], SpawnPoints[LaneIndex].transform.position, Quaternion.identity);
         Spawned = true;
         yield return new WaitForSeconds(Seconds);

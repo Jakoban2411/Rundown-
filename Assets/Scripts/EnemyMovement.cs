@@ -10,14 +10,13 @@ public class EnemyMovement : MonoBehaviour {
     bool changed;
     public bool running;
     [SerializeField]int index0;
-    public float Left, Right,mid;
+    public float Left, Right;
     Vector2 LookForward;
     RaycastHit2D hit;
-    bool Blocked;
+    bool Blocked,Avoided;
     Vector2 MoveToPosition,Myposition,normalisedforce;
     WaypointProperties Waypoint,altWaypoint;
     Rigidbody2D Mybody;
-    [SerializeField] float CollisionDamgage;
     public IEnumerator coroutine;
     float XDirection,YDirection;
     // Use this for initialization
@@ -25,23 +24,22 @@ public class EnemyMovement : MonoBehaviour {
         WaypointManager = FindObjectOfType<AIMoveDecision>();
         running = false;
         index0 = UnityEngine.Random.Range(0, WaypointManager.Waypoints.Count - 1);
-        Left = WaypointManager.Players[0].GetComponent<PlayerMovement>().LeftBorder;
-        Right = WaypointManager.Players[0].GetComponent<PlayerMovement>().RightBorder;
-        mid = WaypointManager.Players[0].GetComponent<PlayerMovement>().Mid;
-        Mybody = GetComponent<Rigidbody2D>();
-        // Debug.Log("Index0:"+ index0);
-        // Debug.Log("Count:" + WaypointManager.Waypoints.Count );
+        Left = WaypointManager.Left.transform.position.x;
+        Right = WaypointManager.Right.transform.position.x;
+         Mybody = GetComponent<Rigidbody2D>();
         altWaypoint = WaypointManager.Waypoints[index0];
-       LookForward = new Vector2(altWaypoint.transform.position.x, altWaypoint.transform.position.y+0.2f);
+        LookForward = new Vector2(altWaypoint.transform.position.x, altWaypoint.transform.position.y+0.2f);
         AIMoveDecision.BlockInitialised += Move;
         AIMoveDecision.UnBlockInitialised += Return;
         Blocked = false;
-    }
+        Avoided = true;
+        }
 
     private void Return()
     {
-        if(coroutine!=null)
-        StopCoroutine(coroutine);
+        if(Avoided==true)
+            if(coroutine!=null)
+                StopCoroutine(coroutine);
         Blocked = false;
      }
     private void OnDestroy()
@@ -53,34 +51,56 @@ public class EnemyMovement : MonoBehaviour {
     {
         StopCoroutine(RaycastAndMove());
         Blocked = true;
-        if (gameObject.transform.position.x > mid)
+        if (Mathf.Abs(gameObject.transform.position.x) >= Mathf.Abs(Left) && Mathf.Abs(gameObject.transform.position.x) <= Mathf.Abs(Right))
         {
-            coroutine = SideSwipe(Right);
-            StartCoroutine(coroutine);
-        }
-        else
-        {
-            coroutine = SideSwipe(Left);
-            Debug.Log("Coroutine with Left: " + Left.ToString());
-            StartCoroutine(coroutine);
+            if (Mathf.Abs(gameObject.transform.position.x) - Mathf.Abs(Left) >= Mathf.Abs(Right) - Mathf.Abs(gameObject.transform.position.x))
+            {
+                Debug.Log("Right for " + gameObject.name);
+                coroutine = SideSwipe(Right);
+                StartCoroutine(SideSwipe(Right));
+            }
+            else
+            {
+                Debug.Log("Left for "+gameObject.name);
+                coroutine = SideSwipe(Left);
+                StartCoroutine(SideSwipe(Left));
+            }
         }
     }
     IEnumerator SideSwipe(float Side)
     {
-        Debug.Log("Side: " + Side.ToString() + " My: " + gameObject.transform.position.x);
-        while(Mathf.Abs(gameObject.transform.position.x) < Mathf.Abs(Side))
+        Avoided = false;
+        Debug.Log(gameObject.name+" going "+Side.ToString());
+        if (Side <= gameObject.transform.position.x)
         {
-            if (Time.timeScale == 1)
-                Mybody.AddForce(new Vector2(MovementSpeed*Side*5f/Mathf.Abs(Side),-MovementSpeed));
-            else
-                Mybody.AddForce(new Vector2(MovementSpeed * Side * 5f / Mathf.Abs(Side) / (Time.deltaTime * 10000000000000000), -MovementSpeed / (Time.deltaTime * 10000000000000000)));
-            yield return null;
+            while (Mathf.Abs(gameObject.transform.position.x) > Mathf.Abs(Side))
+            {
+                if (Time.timeScale == 1)
+                    Mybody.AddForce(new Vector2(-MovementSpeed * Side * Time.deltaTime / Mathf.Abs(Side), 0));
+                else
+                    Mybody.AddForce(new Vector2(-MovementSpeed * Side * Time.deltaTime / (Mathf.Abs(Side)*10000) , 0));
+                yield return null;
+            }
+            yield return new WaitForSeconds(3);
         }
-       
+        else
+        {
+            while (Mathf.Abs(gameObject.transform.position.x) < Mathf.Abs(Side))
+            {
+                if (Time.timeScale == 1)
+                    Mybody.AddForce(new Vector2(MovementSpeed * Side * Time.deltaTime / Mathf.Abs(Side), 0));
+                else
+                    Mybody.AddForce(new Vector2(MovementSpeed * Side  * Time.deltaTime / (Mathf.Abs(Side)*10000) , 0));
+                yield return null;
+            }
+            yield return new WaitForSeconds(3);
+        }
+        Avoided = true;
+        yield return null;
     }
     // Update is called once per frame
     void Update () {
-        //Debug.Log("Position :" + gameObject.transform.position.ToString());
+        //Debug.Log("Running " + running.ToString()+" for "+gameObject.name);
         if(WaypointManager==null)
         {
             WaypointManager = FindObjectOfType<AIMoveDecision>();
@@ -89,57 +109,29 @@ public class EnemyMovement : MonoBehaviour {
         {
                 if (running == true)
                 {
-                    Debug.Log("Running:" + running.ToString()+" For object:"+ gameObject.name+" To: "+MoveToPosition.ToString());
                     Myposition = new Vector2(gameObject.transform.position.x, gameObject.transform.position.y);
-                if (Myposition != MoveToPosition)
-                {
-                    if (Time.timeScale == 1)
-                        Mybody.AddForce((MoveToPosition - Myposition).normalized * MovementSpeed * Time.deltaTime);
-                    else
+                    if (Myposition != MoveToPosition)
                     {
-                        Mybody.AddForce((MoveToPosition - Myposition).normalized * Time.deltaTime*20 / MovementSpeed);
-                        Debug.Log("AFFECTED!");
+                        if (Time.timeScale == 1)
+                            Mybody.AddForce((MoveToPosition - Myposition).normalized * MovementSpeed * Time.deltaTime);
+                        else
+                        {
+                            Mybody.AddForce((MoveToPosition - Myposition).normalized * Time.deltaTime*20 / MovementSpeed);
+                        }
                     }
-                }
                 }
                 else
                 {
-                    Debug.Log("Running:" + running.ToString());
-                    StartCoroutine(RaycastAndMove());
+                     StartCoroutine(RaycastAndMove());
                 }
         }
 	}
     IEnumerator RaycastAndMove()
     {
-        /* if (altWaypoint)
-        {
-            running = true;
-            hit = Physics2D.Raycast(altWaypoint.transform.position, LookForward);
-            if (hit && hit.collider.gameObject.tag == "Pubic")
-            {
-                index0 = UnityEngine.Random.Range(0, WaypointManager.Waypoints.Count);
-                altWaypoint = WaypointManager.Waypoints[index0];
-                LookForward = new Vector2(altWaypoint.transform.position.x, altWaypoint.transform.position.y + 0.5f);
-                running = false;
-                yield return null;
-            }
-            else
-            {
-              //  Debug.Log("Index0: " + index0.ToString() + " ListCount: " + WaypointManager.Waypoints.Count);
-                if (WaypointManager.Waypoints[index0] != null)
-                {
-                    Waypoint = WaypointManager.Waypoints[index0];
-                    MoveToPosition = Waypoint.transform.position;
-                    yield return new WaitForSeconds(sec);
-                    running = false;
-                }
-            }
-        }*/
         running = true;
         hit = Physics2D.Raycast(altWaypoint.transform.position, LookForward);
         if (hit.transform.gameObject != null && hit.transform.gameObject.CompareTag("Waypoint")==false)
         {
-            Debug.Log("Hit: " + hit.transform.gameObject.name);
             index0 = UnityEngine.Random.Range(0, WaypointManager.Waypoints.Count);
             altWaypoint = WaypointManager.Waypoints[index0];
             LookForward = new Vector2(altWaypoint.transform.position.x, altWaypoint.transform.position.y + 0.5f);
@@ -151,10 +143,8 @@ public class EnemyMovement : MonoBehaviour {
         {
             Waypoint = WaypointManager.Waypoints[index0];
             MoveToPosition = Waypoint.transform.position;
-            Debug.Log("Move: " + MoveToPosition.ToString() + " for " + gameObject.name);
             yield return new WaitForSeconds(sec);
             running = false;
-            Debug.Log("Running set to false running: "+ running.ToString()+" for " + gameObject.name);
         }
     }
     private void OnCollisionStay2D(Collision2D collision)
@@ -164,18 +154,27 @@ public class EnemyMovement : MonoBehaviour {
             if (running == true)
             {
                 StopCoroutine(RaycastAndMove());
-               
+                running = false;
+                float x = -(collision.transform.position.x - gameObject.transform.position.x) * MovementSpeed/3;//I think the division is always giving -1. Try subtracting the position of gameobject and collision and then using them in the x of the vector
+                Mybody.AddForce(new Vector2(x, 0));
             }
-            StartCoroutine(RaycastAndMove());
+            
         }
     }
-    
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if(!Blocked)
+        {
+            if(running==false)
+            {
+                StartCoroutine(RaycastAndMove());
+            }
+        }
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.tag=="Player")
-        {
-            collision.gameObject.GetComponent<DamageSystrm>().Damage(CollisionDamgage);
-        }
+     
        if (!Blocked)
         {
             /*   if (Mathf.Abs(collision.gameObject.transform.position.y) - Mathf.Abs(gameObject.transform.position.y) > 0)
@@ -194,7 +193,9 @@ public class EnemyMovement : MonoBehaviour {
                 if (running == true)
                 {
                     StopCoroutine(RaycastAndMove());
-                }
+                    float x = -(collision.transform.position.x-gameObject.transform.position.x)*MovementSpeed/3;//I think the division is always giving -1. Try subtracting the position of gameobject and collision and then using them in the x of the vector
+                    Mybody.AddForce(new Vector2(x, 0));
+                  }
                 StartCoroutine(RaycastAndMove());
             }
         }

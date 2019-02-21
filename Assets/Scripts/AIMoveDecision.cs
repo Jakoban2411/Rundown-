@@ -18,6 +18,8 @@ public class AIMoveDecision : MonoBehaviour {
     int sizeblock;
     GameObject Blocker;
     int index;
+    public GameObject Left;
+    public GameObject Right;
     public bool blocked;
     [SerializeField] Spawner pubicspawner;
     public delegate void Block();

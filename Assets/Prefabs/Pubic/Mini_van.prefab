@@ -101,7 +101,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98cc1889f920b6e4da8f393fa905a989, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MoveSpeed: 500000
+  MoveSpeed: 5000000
 --- !u!114 &114663414014136456
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -116,7 +116,10 @@ MonoBehaviour:
   MaxHealth: 500
   HealthDropProb: 0.8
   Health: 100
-  Pickup: {fileID: 1208241291225538, guid: 8429045bf6d19244fb70bb843b6a64b6, type: 2}
+  Pickup:
+  - {fileID: 1522671511000732, guid: abdcd933aac4e6b449faf3d6fb2132ad, type: 2}
+  - {fileID: 1473630606772288, guid: 7f00060dac91e2f4581088ce4d363c25, type: 2}
+  - {fileID: 1208241291225538, guid: 8429045bf6d19244fb70bb843b6a64b6, type: 2}
 --- !u!114 &114674737020100332
 MonoBehaviour:
   m_ObjectHideFlags: 1

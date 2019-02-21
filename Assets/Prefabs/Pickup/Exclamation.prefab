@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 114607936000298598}
   - component: {fileID: 114767279853943902}
   - component: {fileID: 58435616737303090}
+  - component: {fileID: 95043253868104460}
   m_Layer: 0
   m_Name: Exclamation
   m_TagString: Untagged
@@ -58,6 +59,24 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 2.56
+--- !u!95 &95043253868104460
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1473630606772288}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b7bb5f715fbc8494a9a45f881cc323f5, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &114607936000298598
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -82,7 +101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Healthtoadd: 0
-  DropProbability: 0
+  DropProbability: 0.7
   isHealth: 0
   isTime: 0
   isExplode: 1

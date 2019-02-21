@@ -28,12 +28,12 @@ public class Pickup : MonoBehaviour {
             {
                 if (isTime)
                 {
-                    destroyinsec = UnityEngine.Random.Range(5,10);
-                    StartCoroutine(TimeChange(destroyinsec));
+                    destroyinsec = 30;//UnityEngine.Random.Range(5,10);
+                    StartCoroutine(TimeChange(5));
                 }
                 else
                 {
-                    destroyinsec =Unstoppable.length;
+                    destroyinsec =8;
                     StartCoroutine(OmniDirection(collision.gameObject.GetComponent<PlayerMovement>(), destroyinsec));
                 }
             }
@@ -59,7 +59,7 @@ public class Pickup : MonoBehaviour {
     IEnumerator TimeChange(float TimesFaster)
     {
         Time.timeScale = TimesFaster;
-        yield return new WaitForSeconds(1000000);
+        yield return new WaitForSeconds(28);
         Time.timeScale = 1;
     }
     // Update is called once per frame

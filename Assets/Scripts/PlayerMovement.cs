@@ -120,7 +120,6 @@ public class PlayerMovement : MonoBehaviour {
             velocity = Rotation * new Vector3(0, BulletSpeed/ Time.timeScale, 0);
         Physics2D.IgnoreCollision(ObjBullet.GetComponent<Collider2D>(), GetComponent<Collider2D>());
         ObjBullet.GetComponent<Rigidbody2D>().velocity = velocity;
-        Debug.Log("Angle: " + ObjBullet.transform.eulerAngles);
         if(Time.timeScale==1)
         Destroy(ObjBullet, 2);
         else
