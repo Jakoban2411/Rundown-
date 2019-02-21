@@ -72,7 +72,10 @@ public class Shoot : MonoBehaviour {
         Rotation = Quaternion.FromToRotation(Vector3.up, NormalizedShootDirection);
         ObjBullet = Instantiate<GameObject>(Bullet, BulletSpawnLocation.transform.position, Rotation);
         Physics2D.IgnoreCollision(ObjBullet.GetComponent<Collider2D>(), GetComponent<Collider2D>());
-        ObjBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(NormalizedShootDirection.x*BulletSpeed,NormalizedShootDirection.y*BulletSpeed);
+        if (Time.timeScale == 1)
+            ObjBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(NormalizedShootDirection.x * BulletSpeed, NormalizedShootDirection.y * BulletSpeed);
+        else
+            ObjBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(NormalizedShootDirection.x * BulletSpeed, NormalizedShootDirection.y )*Time.deltaTime / BulletSpeed;
         yield return new WaitForSeconds(ShootTime);
         shot = false;
     }

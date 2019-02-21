@@ -23,6 +23,7 @@ public class PlayerMovement : MonoBehaviour {
     AudioSource AudioComponent;
     Rigidbody2D PlayerBody;
     public GameObject Health;
+    Vector3 velocity;
     // Use this for initialization
     void Start () {
         float Zdis = Camera.main.transform.position.z - transform.position.z;
@@ -63,7 +64,7 @@ public class PlayerMovement : MonoBehaviour {
     {
         displacement = new Vector3(displacementx, displacementy,0);
         //deltapos = displacement * Time.deltaTime*MovementSpeed;
-        PlayerBody.AddForce(displacement*MovementSpeed);
+        PlayerBody.AddForce(displacement*MovementSpeed*Time.unscaledDeltaTime);
        /* if (transform.position.x > RightBorder || transform.position.x < LeftBorder || transform.position.y > TopBorder || transform.position.y < BottomBorder)
         {
             newpos = transform.position;
@@ -109,6 +110,22 @@ public class PlayerMovement : MonoBehaviour {
                 StartCoroutine(PlayAudio(LMGReloadaudio));
             }
         }
+    }
+    public void Fire(Quaternion Rotation)
+    {
+        ObjBullet = Instantiate<GameObject>(Bullet, transform.position, Rotation);
+        if(Time.timeScale==1)
+            velocity = Rotation * new Vector3(0, BulletSpeed/Time.timeScale, 0);
+        else
+            velocity = Rotation * new Vector3(0, BulletSpeed/ Time.timeScale, 0);
+        Physics2D.IgnoreCollision(ObjBullet.GetComponent<Collider2D>(), GetComponent<Collider2D>());
+        ObjBullet.GetComponent<Rigidbody2D>().velocity = velocity;
+        Debug.Log("Angle: " + ObjBullet.transform.eulerAngles);
+        if(Time.timeScale==1)
+        Destroy(ObjBullet, 2);
+        else
+            Destroy(ObjBullet, 2*Time.timeScale);
+
     }
     IEnumerator DisplayReload()
     {

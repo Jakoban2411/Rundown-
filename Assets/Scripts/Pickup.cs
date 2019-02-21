@@ -5,7 +5,10 @@ using UnityEngine;
 public class Pickup : MonoBehaviour {
     [SerializeField] float Healthtoadd;
     public float DropProbability;
+    float destroyinsec;
+    GameObject ObjBullet;
     [SerializeField] bool isHealth,isTime,isExplode;
+    [SerializeField] AudioClip Unstoppable;
     // Use this for initialization
     void Start()
     {
@@ -19,31 +22,44 @@ public class Pickup : MonoBehaviour {
             {
 
                 collision.gameObject.GetComponent<DamageSystrm>().Health += Healthtoadd;
-
+                destroyinsec = 0;
             }
             else
             {
                 if (isTime)
                 {
-                    StartCoroutine(TimeChange(UnityEngine.Random.Range(1, 5)));
+                    destroyinsec = UnityEngine.Random.Range(5,10);
+                    StartCoroutine(TimeChange(destroyinsec));
                 }
                 else
                 {
-                    StartCoroutine(OmniDirection(collision.gameObject.GetComponent<PlayerMovement>()));
+                    destroyinsec =Unstoppable.length;
+                    StartCoroutine(OmniDirection(collision.gameObject.GetComponent<PlayerMovement>(), destroyinsec));
                 }
             }
-            Destroy(gameObject);
+            gameObject.GetComponent<SpriteRenderer>().enabled = false;
+            Destroy(gameObject,destroyinsec);
         }
     }
-    IEnumerator OmniDirection(PlayerMovement playerscript)
+    IEnumerator OmniDirection(PlayerMovement playerscript,float duration)
     {
-           
-        yield return null;
+        Quaternion startrotation = playerscript.gameObject.transform.rotation;
+        float t = 0;
+        AudioSource.PlayClipAtPoint(Unstoppable, Camera.main.transform.position);
+        while (t < duration)
+        {
+            t += Time.deltaTime;
+            Quaternion Rotation = startrotation*Quaternion.AngleAxis(t/duration * 720, Vector3.forward);
+            playerscript.Fire(Rotation);
+            playerscript.Fire(Quaternion.Inverse(Rotation));
+            yield return null;
+        }
+
     }
     IEnumerator TimeChange(float TimesFaster)
     {
         Time.timeScale = TimesFaster;
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(1000000);
         Time.timeScale = 1;
     }
     // Update is called once per frame

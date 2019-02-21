@@ -18,7 +18,10 @@ public class MoveBack : MonoBehaviour {
 	void Update () {
         if (MyBody)
         {
-            movethisframe = new Vector3(0, -MoveSpeed , 0);
+            if (Time.timeScale == 1)
+                movethisframe = new Vector3(0, -MoveSpeed * Time.deltaTime, 0);
+            else
+                movethisframe = new Vector3(0, -Time.deltaTime / (MoveSpeed*10), 0);
             MyBody.AddForce(movethisframe);
         }
         else

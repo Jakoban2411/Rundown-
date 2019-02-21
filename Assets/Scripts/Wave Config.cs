@@ -18,10 +18,15 @@ public class WaveConfig : ScriptableObject {
 	}
     public IEnumerator SpawnEnemy(Transform SpawnPoint)
     {
-        for (int enemycount = 0; enemycount< NumberOfEnemies; enemycount++)
+        if (Time.timeScale == 1)
         {
-           Instantiate<GameObject>(EnemyPrefab, SpawnPoint.transform.position, EnemyPrefab.transform.rotation);
-            yield return new WaitForSeconds(TimeBetweenSpawns);
+            for (int enemycount = 0; enemycount < NumberOfEnemies; enemycount++)
+            {
+                Instantiate<GameObject>(EnemyPrefab, SpawnPoint.transform.position, EnemyPrefab.transform.rotation);
+                yield return new WaitForSeconds(TimeBetweenSpawns);
+            }
         }
+        else
+            yield return new WaitForSeconds(TimeBetweenSpawns);
     }
 }

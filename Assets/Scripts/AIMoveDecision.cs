@@ -59,6 +59,7 @@ public class AIMoveDecision : MonoBehaviour {
     void Update () {
         if(Spawned==false)
         {
+            if(Time.timeScale==1)
             StartCoroutine(StartWaves());
         }
         if (Time.timeSinceLevelLoad - LastTime > TimeInterval)

@@ -70,8 +70,10 @@ public class EnemyMovement : MonoBehaviour {
         Debug.Log("Side: " + Side.ToString() + " My: " + gameObject.transform.position.x);
         while(Mathf.Abs(gameObject.transform.position.x) < Mathf.Abs(Side))
         {
-           // Debug.Log("Adding");
-            Mybody.AddForce(new Vector2(MovementSpeed*Side*5f/Mathf.Abs(Side),-MovementSpeed));
+            if (Time.timeScale == 1)
+                Mybody.AddForce(new Vector2(MovementSpeed*Side*5f/Mathf.Abs(Side),-MovementSpeed));
+            else
+                Mybody.AddForce(new Vector2(MovementSpeed * Side * 5f / Mathf.Abs(Side) / (Time.deltaTime * 10000000000000000), -MovementSpeed / (Time.deltaTime * 10000000000000000)));
             yield return null;
         }
        
@@ -89,12 +91,16 @@ public class EnemyMovement : MonoBehaviour {
                 {
                     Debug.Log("Running:" + running.ToString()+" For object:"+ gameObject.name+" To: "+MoveToPosition.ToString());
                     Myposition = new Vector2(gameObject.transform.position.x, gameObject.transform.position.y);
-                    if (Myposition != MoveToPosition)
+                if (Myposition != MoveToPosition)
+                {
+                    if (Time.timeScale == 1)
+                        Mybody.AddForce((MoveToPosition - Myposition).normalized * MovementSpeed * Time.deltaTime);
+                    else
                     {
-                      //  Debug.Log("Added: " + ((MoveToPosition - Myposition).normalized * MovementSpeed*5).ToString());
-                        Mybody.AddForce((MoveToPosition - Myposition).normalized * MovementSpeed*5);
-                        //transform.position = Vector2.MoveTowards(transform.position, MoveToPosition, movementthisframe);
+                        Mybody.AddForce((MoveToPosition - Myposition).normalized * Time.deltaTime*20 / MovementSpeed);
+                        Debug.Log("AFFECTED!");
                     }
+                }
                 }
                 else
                 {
@@ -170,24 +176,27 @@ public class EnemyMovement : MonoBehaviour {
         {
             collision.gameObject.GetComponent<DamageSystrm>().Damage(CollisionDamgage);
         }
-        if (!Blocked)
+       if (!Blocked)
         {
-            if (Mathf.Abs(collision.gameObject.transform.position.y) - Mathf.Abs(gameObject.transform.position.y) > 0)
+            /*   if (Mathf.Abs(collision.gameObject.transform.position.y) - Mathf.Abs(gameObject.transform.position.y) > 0)
+               {
+                   YDirection = MovementSpeed;
+               }
+               else
+                   YDirection = -MovementSpeed;
+               if (Mathf.Abs(collision.gameObject.transform.position.x) > Mathf.Abs(gameObject.transform.position.x))
+                   XDirection = Left;
+               else
+                   XDirection = Right;
+               Mybody.AddForce(new Vector2(XDirection * MovementSpeed * 10, YDirection * 100));*/
+            if (Time.timeScale == 1)
             {
-                YDirection = MovementSpeed;
+                if (running == true)
+                {
+                    StopCoroutine(RaycastAndMove());
+                }
+                StartCoroutine(RaycastAndMove());
             }
-            else
-                YDirection = -MovementSpeed;
-            if (Mathf.Abs(collision.gameObject.transform.position.x) > Mathf.Abs(gameObject.transform.position.x))
-                XDirection = Left;
-            else
-                XDirection = Right;
-            Mybody.AddForce(new Vector2(XDirection * MovementSpeed * 10, YDirection * 100));
-            if (running == true)
-            {
-                StopCoroutine(RaycastAndMove());
-            }
-            StartCoroutine(RaycastAndMove());
         }
     }
 }
