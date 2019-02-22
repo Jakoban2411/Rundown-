@@ -306,11 +306,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9657ccfd800b2764597838f35b5b8b1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxHealth: 1e+9
-  HealthDropProb: 0
+  CollisionDamage: 0
+  MaxHealth: 500
   Health: 150
   Pickup:
   - {fileID: 0}
+  DamageEffect: {fileID: 0}
 --- !u!212 &212362379582101766
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -372,6 +373,6 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 22.55, y: -8.14}
+  m_AnchoredPosition: {x: 87.520004, y: -8.14}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
