@@ -23,6 +23,7 @@ public class PlayerMovement : MonoBehaviour {
     AudioSource AudioComponent;
     Rigidbody2D PlayerBody;
     public GameObject Health;
+    GameObject Spikes;
     Vector3 velocity;
     // Use this for initialization
     void Start () {
@@ -39,7 +40,8 @@ public class PlayerMovement : MonoBehaviour {
         FadeAnim.Stop();
         AudioComponent = GetComponent<AudioSource>();
         AudioComponent.clip = LMGFireaudio;
-        
+        Spikes = transform.GetChild(0).gameObject;
+        Spikes.SetActive(false);
     }
 
     // Update is called once per frame
@@ -93,8 +95,6 @@ public class PlayerMovement : MonoBehaviour {
                 Firing = true;
             }
         }
-        
-        
             ObjBullet = Instantiate<GameObject>(Bullet, transform.position, Bullet.transform.rotation);
             Physics2D.IgnoreCollision(ObjBullet.GetComponent<Collider2D>(), GetComponent<Collider2D>());
             ObjBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(0, BulletSpeed);

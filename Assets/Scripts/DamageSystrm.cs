@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class DamageSystrm : MonoBehaviour
 {
-    [SerializeField] float CollisionDamage;
+    public float CollisionDamage;
     public float MaxHealth,Health;
     //[HideInInspector] public float Health;
     public GameObject[] Pickup;
+    float DropProb;
     GameObject Healthsprite;
     int index;
     Vector3 Maxscale;
@@ -27,6 +28,10 @@ public class DamageSystrm : MonoBehaviour
             Effect=DamageEffect.GetComponent<Animator>();
         }
         index = UnityEngine.Random.Range(0, Pickup.Length);
+        if (gameObject.tag == "Tank")
+            DropProb = 1;
+        else
+            DropProb = Random.value;
     }
 
     // Update is called once per frame
@@ -41,7 +46,7 @@ public class DamageSystrm : MonoBehaviour
         if (Health <= 0)
         {
 
-            if (isPlayer == false && Random.value >= Pickup[index].GetComponent<Pickup>().DropProbability)
+            if (isPlayer == false &&  DropProb>= Pickup[index].GetComponent<Pickup>().DropProbability)
             {
                 Instantiate<GameObject>(Pickup[index], transform.position, Pickup[index].transform.rotation);
             }

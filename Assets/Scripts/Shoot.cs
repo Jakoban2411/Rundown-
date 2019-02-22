@@ -14,6 +14,7 @@ public class Shoot : MonoBehaviour {
     [SerializeField] GameObject Turret;
     [SerializeField] GameObject BulletSpawnLocation;
     [SerializeField] float BulletSpeed;
+    Vector3 TurretForward;
     Quaternion Rotation, TurretRotation;
     public float turretspeed;
     GameObject ObjBullet;
@@ -52,15 +53,11 @@ public class Shoot : MonoBehaviour {
         }
         if (AttachedTurret)
         {
-            if (Turret)
-            {/*
-                ZPlayerPos = new Vector3(PlayerToShoot.transform.position.x, PlayerToShoot.transform.position.y, 0);
-                ZTurretPos = new Vector3(Turret.transform.position.x, Turret.transform.position.y, 0);
-                NormalizedTurretPosition=(ZPlayerPos-ZTurretPos).normalized;
-                TurretRotation = Quaternion.FromToRotation(ZTurretPos,NormalizedTurretPosition);
-                TurretRotation=Quaternion.FromToRotation(Turret.transform.position.normalized,NormalizedTurretPosition);*/
-                //Turret.transform.rotation = Quaternion.RotateTowards(Turret.transform.rotation, Rotation, turretspeed * Time.deltaTime);
-                Turret.transform.rotation = Quaternion.Slerp(Turret.transform.rotation, Rotation, turretspeed * Time.deltaTime);
+            if (Turret && Turret.transform.rotation.eulerAngles.z!=Rotation.eulerAngles.z)
+            {
+                Quaternion startrotation =Turret.transform.rotation;
+                Debug.Log(Turret.transform.rotation.eulerAngles.z.ToString() + " Now Rotation: " + Rotation.eulerAngles.z.ToString() + " Start-Rot= " + (startrotation.eulerAngles.z - Rotation.eulerAngles.z).ToString());
+               Turret.transform.rotation = startrotation*Quaternion.AngleAxis((Rotation.eulerAngles.z-startrotation.eulerAngles.z)*Time.deltaTime, Vector3.forward);
             }
         }
     }
@@ -68,6 +65,7 @@ public class Shoot : MonoBehaviour {
     {
         shot = true;
         AudioSource.PlayClipAtPoint(Fire,AudioPosition);
+        if(PlayerToShoot)
         NormalizedShootDirection = (PlayerToShoot.transform.position - gameObject.transform.position).normalized;
         Rotation = Quaternion.FromToRotation(Vector3.up, NormalizedShootDirection);
         ObjBullet = Instantiate<GameObject>(Bullet, BulletSpawnLocation.transform.position, Rotation);

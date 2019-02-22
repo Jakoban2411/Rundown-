@@ -6,7 +6,7 @@ public class WaveConfig : ScriptableObject {
     [SerializeField] GameObject EnemyPrefab;
     public float TimeBetweenSpawns = 1;
     public float SpawnRandomFactor = 0.3f;
-    public int NumberOfEnemies = 5;
+    public int NumberOfEnemies ;
     // Use this for initialization
     void Start () {
 		

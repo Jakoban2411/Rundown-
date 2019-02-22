@@ -17,7 +17,7 @@ public class AIMoveDecision : MonoBehaviour {
     bool Spawned;
     int sizeblock;
     GameObject Blocker;
-    int index;
+    int index,sizeofwaves;
     public GameObject Left;
     public GameObject Right;
     public bool blocked;
@@ -30,6 +30,7 @@ public class AIMoveDecision : MonoBehaviour {
     // Use this for initialization
     private void Start()
     {
+        sizeofwaves = Waves.Length;
         index = 0;
        if (FindObjectsOfType<AIMoveDecision>().Length > 1)
         {
@@ -38,7 +39,7 @@ public class AIMoveDecision : MonoBehaviour {
         else
             DontDestroyOnLoad(gameObject);          //Check if it works. Its getting deleted and a new AIMove is getting instantiaed on pressing start button
         TimeInterval = Stages[index];
-    }
+        }
     void OnEnable () {
         sizeblock = RoadBlocks.Length;
         blocked = false;
@@ -47,11 +48,12 @@ public class AIMoveDecision : MonoBehaviour {
         seconds = FindObjectOfType<Spawner>().Seconds; 
         Players = GameObject.FindGameObjectsWithTag("Player");
         StartCoroutine(StartWaves());
-        
-       /* for (int i = 0; i < Waves.Length; i++)
-        {
-            InstantiatedWaves[i] = ScriptableObject.CreateInstance<WaveConfig>(Waves[i]);
-       }*/
+        for (int i = 0; i < Waves.Length; i++)
+            Waves[i].NumberOfEnemies = 3;
+        /* for (int i = 0; i < Waves.Length; i++)
+         {
+             InstantiatedWaves[i] = ScriptableObject.CreateInstance<WaveConfig>(Waves[i]);
+        }*/
     }
     private void OnDisable()
     {
@@ -86,6 +88,8 @@ public class AIMoveDecision : MonoBehaviour {
         yield return new WaitForSeconds(10);
         UnBlockInitialised();
         blocked = false;
+        int index0 = UnityEngine.Random.Range(0, sizeofwaves);
+        Waves[index0].NumberOfEnemies++;
         yield return StartCoroutine(StartWaves());
     }
 

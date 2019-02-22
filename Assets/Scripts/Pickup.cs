@@ -7,7 +7,7 @@ public class Pickup : MonoBehaviour {
     public float DropProbability;
     float destroyinsec;
     GameObject ObjBullet;
-    [SerializeField] bool isHealth,isTime,isExplode;
+    [SerializeField] bool isHealth,isTime,isExplode,isSpike;
     [SerializeField] AudioClip Unstoppable;
     // Use this for initialization
     void Start()
@@ -33,14 +33,33 @@ public class Pickup : MonoBehaviour {
                 }
                 else
                 {
-                    destroyinsec =8;
-                    StartCoroutine(OmniDirection(collision.gameObject.GetComponent<PlayerMovement>(), destroyinsec));
+                    if (isSpike)
+                    {
+                        destroyinsec = 8;
+                        StartCoroutine(Spikes(collision.gameObject.transform.GetChild(0).gameObject));
+                    }
+                    else
+                    {
+                        destroyinsec = 8;
+                        StartCoroutine(OmniDirection(collision.gameObject.GetComponent<PlayerMovement>(), destroyinsec));
+                    }
                 }
             }
             gameObject.GetComponent<SpriteRenderer>().enabled = false;
             Destroy(gameObject,destroyinsec);
         }
     }
+    private void OnDestroy()
+    {
+        StopAllCoroutines();
+    }
+    IEnumerator Spikes(GameObject spike)
+    {
+        spike.SetActive(true);
+        yield return new WaitForSeconds(7);
+        spike.SetActive(false);
+    }
+    
     IEnumerator OmniDirection(PlayerMovement playerscript,float duration)
     {
         Quaternion startrotation = playerscript.gameObject.transform.rotation;
