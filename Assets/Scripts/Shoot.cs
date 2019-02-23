@@ -15,7 +15,7 @@ public class Shoot : MonoBehaviour {
     [SerializeField] GameObject BulletSpawnLocation;
     [SerializeField] float BulletSpeed;
     Vector3 TurretForward;
-    Quaternion Rotation, TurretRotation;
+    Quaternion LookRotation,ShootRotation, TurretRotation;
     public float turretspeed;
     GameObject ObjBullet;
     Vector3 AudioPosition;
@@ -53,11 +53,10 @@ public class Shoot : MonoBehaviour {
         }
         if (AttachedTurret)
         {
-            if (Turret && Turret.transform.rotation.eulerAngles.z!=Rotation.eulerAngles.z)
+            if (Turret && Turret.transform.rotation.eulerAngles.z!=LookRotation.eulerAngles.z)
             {
                 Quaternion startrotation =Turret.transform.rotation;
-                Debug.Log(Turret.transform.rotation.eulerAngles.z.ToString() + " Now Rotation: " + Rotation.eulerAngles.z.ToString() + " Start-Rot= " + (startrotation.eulerAngles.z - Rotation.eulerAngles.z).ToString());
-               Turret.transform.rotation = startrotation*Quaternion.AngleAxis((Rotation.eulerAngles.z-startrotation.eulerAngles.z)*Time.deltaTime, Vector3.forward);
+               Turret.transform.rotation = startrotation*Quaternion.AngleAxis((LookRotation.eulerAngles.z-startrotation.eulerAngles.z)*Time.deltaTime, Vector3.forward);
             }
         }
     }
@@ -66,9 +65,10 @@ public class Shoot : MonoBehaviour {
         shot = true;
         AudioSource.PlayClipAtPoint(Fire,AudioPosition);
         if(PlayerToShoot)
-        NormalizedShootDirection = (PlayerToShoot.transform.position - gameObject.transform.position).normalized;
-        Rotation = Quaternion.FromToRotation(Vector3.up, NormalizedShootDirection);
-        ObjBullet = Instantiate<GameObject>(Bullet, BulletSpawnLocation.transform.position, Rotation);
+            NormalizedShootDirection = (PlayerToShoot.transform.position - gameObject.transform.position).normalized;
+        LookRotation = Quaternion.FromToRotation(Vector3.up, NormalizedShootDirection);
+        ShootRotation = Quaternion.AngleAxis(LookRotation.eulerAngles.z, Vector3.forward);
+        ObjBullet = Instantiate<GameObject>(Bullet, BulletSpawnLocation.transform.position, ShootRotation);
         Physics2D.IgnoreCollision(ObjBullet.GetComponent<Collider2D>(), GetComponent<Collider2D>());
         if (Time.timeScale == 1)
             ObjBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(NormalizedShootDirection.x * BulletSpeed, NormalizedShootDirection.y * BulletSpeed);
