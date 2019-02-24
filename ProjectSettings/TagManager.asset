@@ -12,6 +12,8 @@ TagManager:
   - Waypoint
   - Tank
   - Ammo
+  - Missile
+  - Plane
   layers:
   - Default
   - TransparentFX

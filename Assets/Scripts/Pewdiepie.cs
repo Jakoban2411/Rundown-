@@ -7,7 +7,13 @@ public class Pewdiepie : MonoBehaviour {
     Vector3 movethisframe;
     public bool Sideways;
     AudioSource source;
-    public float Health;
+    GameObject BulletRight, BulletLeft;
+    public bool isTracker, isDouble, isSingle;
+    public float Health,BulletSpeed;
+    [SerializeField] GameObject Left,Right,Center,Round;
+    [SerializeField] float RateOfFire;
+    public AudioClip Fire;
+    bool shot,played;
 	// Use this for initialization
 	void Start () {
         source = GetComponent<AudioSource>();
@@ -15,9 +21,10 @@ public class Pewdiepie : MonoBehaviour {
             StartCoroutine(FadeOut(source, source.clip.length / 2));
         else
             StartCoroutine(FadeOut(source, source.clip.length ));
-
+        shot = false;
+        played = false;
     }
-    public static IEnumerator FadeOut(AudioSource audioSource, float FadeTime)
+    IEnumerator FadeOut(AudioSource audioSource, float FadeTime)
     {
         float startVolume = audioSource.volume;
         yield return new WaitForSeconds(audioSource.clip.length / 5);
@@ -26,17 +33,59 @@ public class Pewdiepie : MonoBehaviour {
             audioSource.volume -= startVolume * Time.deltaTime / FadeTime;
             yield return null;
         }
-
-        audioSource.Stop();
+         audioSource.Stop();
         audioSource.volume = startVolume;
     }
     // Update is called once per frame
     void Update () {
         if(Sideways)
-        movethisframe = new Vector3(gameObject.transform.position.x - MovementSpeed * Time.deltaTime, gameObject.transform.position.y , gameObject.transform.position.z);
+            movethisframe = new Vector3(gameObject.transform.position.x - MovementSpeed * Time.deltaTime, gameObject.transform.position.y , gameObject.transform.position.z);
+        else
+            movethisframe = new Vector3(gameObject.transform.position.x , gameObject.transform.position.y - MovementSpeed * Time.deltaTime, gameObject.transform.position.z);
         gameObject.transform.position = movethisframe;
         if (source.volume == 0)
             Destroy(gameObject);
+    }
+    IEnumerator ShootAtPlayer()
+    {
+        shot = true;
+        if(isTracker)
+         {  
+            yield return new WaitForSeconds(1.5f);
+            AudioSource.PlayClipAtPoint(Fire, Camera.main.transform.position);
+            BulletLeft = Instantiate<GameObject>(Round,Center.transform.position, Round.transform.rotation);
+            Physics2D.IgnoreCollision(BulletLeft.GetComponent<Collider2D>(), GetComponent<Collider2D>());
+         }
+        if(isDouble)
+        {  
+            if(played==false)
+            {
+                AudioSource.PlayClipAtPoint(Fire, Camera.main.transform.position);
+                played=true;
+            }
+            BulletLeft = Instantiate<GameObject>(Round, Left.transform.position, Left.transform.rotation);
+            Physics2D.IgnoreCollision(BulletLeft.GetComponent<Collider2D>(), GetComponent<Collider2D>());
+            BulletRight = Instantiate<GameObject>(Round, Right.transform.position, Right.transform.rotation);
+            Physics2D.IgnoreCollision(BulletRight.GetComponent<Collider2D>(), GetComponent<Collider2D>());
+            BulletLeft.GetComponent<Rigidbody2D>().velocity = new Vector2(0, -BulletSpeed);
+            BulletRight.GetComponent<Rigidbody2D>().velocity = new Vector2(0, -BulletSpeed);
+            yield return new WaitForSeconds(RateOfFire);
+            shot = false;
+        }
+        if(isSingle)
+        {
+            if(played==false)
+            {
+                AudioSource.PlayClipAtPoint(Fire, Camera.main.transform.position);
+                played=true;
+            }
+            BulletLeft = Instantiate<GameObject>(Round,Center.transform.position, Round.transform.rotation);
+            Physics2D.IgnoreCollision(BulletLeft.GetComponent<Collider2D>(), GetComponent<Collider2D>());
+            BulletLeft.GetComponent<Rigidbody2D>().velocity = new Vector2(0, -BulletSpeed);
+            yield return new WaitForSeconds(RateOfFire);
+            shot = false;
+        }
+       
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {

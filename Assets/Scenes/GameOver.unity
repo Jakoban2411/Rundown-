@@ -276,7 +276,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Minigun sound-http://soundbible.com/1920-Minigun.html by Jim Rogers
+  m_Text: SFX Minigun:http://soundbible.com/1920-Minigun.html by Jim Rogers,Missile:Rabbi
+    Cartman youtube
 --- !u!222 &107482054
 CanvasRenderer:
   m_ObjectHideFlags: 0

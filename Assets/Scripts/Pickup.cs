@@ -8,7 +8,7 @@ public class Pickup : MonoBehaviour {
     float destroyinsec;
     GameObject ObjBullet;
     [SerializeField] bool isHealth,isTime,isExplode,isSpike,isAirdrop;
-    [SerializeField] AudioClip Unstoppable;
+    [SerializeField] AudioClip Unstoppable,AirDrop,BombExplode;
     [SerializeField] GameObject LeftPlane, RightPlane,StartLeft,StartRight;
     // Use this for initialization
     void Start()
@@ -62,11 +62,15 @@ public class Pickup : MonoBehaviour {
     {
         GameObject Left = Instantiate<GameObject>(LeftPlane, StartLeft.transform.position, LeftPlane.transform.rotation);
         GameObject Right = Instantiate<GameObject>(RightPlane, StartRight.transform.position, RightPlane.transform.rotation);
+        yield return new WaitForSeconds(0.5f);
         GameObject[] Enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        AudioSource.PlayClipAtPoint(AirDrop, Camera.main.transform.position);
+        yield return new WaitForSeconds(7.5f);
         foreach (GameObject enemy in Enemies)
         {
+            AudioSource.PlayClipAtPoint(BombExplode, new Vector3(enemy.transform.position.x, enemy.transform.position.y, Camera.main.transform.position.z));
             Destroy(enemy);
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(.5f);
         }
         yield return null; 
     }

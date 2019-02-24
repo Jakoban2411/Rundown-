@@ -21,6 +21,8 @@ GameObject:
   - component: {fileID: 4578191590915674}
   - component: {fileID: 212094024368213912}
   - component: {fileID: 95051879017453176}
+  - component: {fileID: 114692134782450428}
+  - component: {fileID: 70897888397530268}
   m_Layer: 0
   m_Name: Missile
   m_TagString: Missile
@@ -34,13 +36,28 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1104532385941580}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 92.47, y: 3.57, z: 0}
+  m_LocalRotation: {x: 0, y: -0, z: 0.7071068, w: -0.7071068}
+  m_LocalPosition: {x: 93.94, y: 3.57, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 270}
+--- !u!70 &70897888397530268
+CapsuleCollider2D:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1104532385941580}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 1
+  m_UsedByComposite: 0
+  m_Offset: {x: -1.0474406, y: 0.010379239}
+  m_Size: {x: 0.59401697, y: 0.11696623}
+  m_Direction: 1
 --- !u!95 &95051879017453176
 Animator:
   serializedVersion: 3
@@ -59,6 +76,17 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &114692134782450428
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1104532385941580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c00d42208abdac544bab2d1771b87849, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &212094024368213912
 SpriteRenderer:
   m_ObjectHideFlags: 1
