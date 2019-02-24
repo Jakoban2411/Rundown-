@@ -7,8 +7,9 @@ public class Pickup : MonoBehaviour {
     public float DropProbability;
     float destroyinsec;
     GameObject ObjBullet;
-    [SerializeField] bool isHealth,isTime,isExplode,isSpike;
+    [SerializeField] bool isHealth,isTime,isExplode,isSpike,isAirdrop;
     [SerializeField] AudioClip Unstoppable;
+    [SerializeField] GameObject LeftPlane, RightPlane,StartLeft,StartRight;
     // Use this for initialization
     void Start()
     {
@@ -24,26 +25,24 @@ public class Pickup : MonoBehaviour {
                 collision.gameObject.GetComponent<DamageSystrm>().Health += Healthtoadd;
                 destroyinsec = 0;
             }
-            else
+            if (isTime)
             {
-                if (isTime)
-                {
                     destroyinsec = 30;//UnityEngine.Random.Range(5,10);
                     StartCoroutine(TimeChange(5));
-                }
-                else
-                {
-                    if (isSpike)
-                    {
-                        destroyinsec = 8;
-                        StartCoroutine(Spikes(collision.gameObject.transform.GetChild(0).gameObject));
-                    }
-                    else
-                    {
-                        destroyinsec = 8;
-                        StartCoroutine(OmniDirection(collision.gameObject.GetComponent<PlayerMovement>(), destroyinsec));
-                    }
-                }
+            }
+            if (isSpike)
+            {
+                destroyinsec = 8;
+                StartCoroutine(Spikes(collision.gameObject.transform.GetChild(0).gameObject));
+            }
+            if(isExplode)
+            {
+                destroyinsec = 8;
+                StartCoroutine(OmniDirection(collision.gameObject.GetComponent<PlayerMovement>(), destroyinsec));
+            }
+            if(isAirdrop)
+            {
+
             }
             gameObject.GetComponent<SpriteRenderer>().enabled = false;
             Destroy(gameObject,destroyinsec);
@@ -59,8 +58,19 @@ public class Pickup : MonoBehaviour {
         yield return new WaitForSeconds(7);
         spike.SetActive(false);
     }
-    
-    IEnumerator OmniDirection(PlayerMovement playerscript,float duration)
+    IEnumerator AirSupport()
+    {
+        GameObject Left = Instantiate<GameObject>(LeftPlane, StartLeft.transform.position, LeftPlane.transform.rotation);
+        GameObject Right = Instantiate<GameObject>(RightPlane, StartRight.transform.position, RightPlane.transform.rotation);
+        GameObject[] Enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach (GameObject enemy in Enemies)
+        {
+            Destroy(enemy);
+            yield return new WaitForSeconds(1);
+        }
+        yield return null; 
+    }
+        IEnumerator OmniDirection(PlayerMovement playerscript,float duration)
     {
         Quaternion startrotation = playerscript.gameObject.transform.rotation;
         float t = 0;

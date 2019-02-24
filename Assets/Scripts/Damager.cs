@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Damager : MonoBehaviour {
-    [SerializeField] float Damage;
+    public float Damage;
     DamageSystrm ObjectDamage;
     bool check,checkstop;
     // Use this for initialization

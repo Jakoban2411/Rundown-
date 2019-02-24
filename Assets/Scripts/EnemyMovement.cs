@@ -16,7 +16,7 @@ public class EnemyMovement : MonoBehaviour {
     bool Blocked,Avoided;
     Vector2 MoveToPosition,Myposition,normalisedforce;
     WaypointProperties Waypoint,altWaypoint;
-    Rigidbody2D Mybody;
+    public Rigidbody2D Mybody;
     public IEnumerator coroutine;
     float XDirection,YDirection;
     // Use this for initialization
@@ -26,11 +26,14 @@ public class EnemyMovement : MonoBehaviour {
         index0 = UnityEngine.Random.Range(0, WaypointManager.Waypoints.Count - 1);
         Left = WaypointManager.Left.transform.position.x;
         Right = WaypointManager.Right.transform.position.x;
-         Mybody = GetComponent<Rigidbody2D>();
+        Mybody = GetComponent<Rigidbody2D>();
         altWaypoint = WaypointManager.Waypoints[index0];
         LookForward = new Vector2(altWaypoint.transform.position.x, altWaypoint.transform.position.y+0.2f);
-        AIMoveDecision.BlockInitialised += Move;
-        AIMoveDecision.UnBlockInitialised += Return;
+        if (!gameObject.CompareTag("Tank"))
+        {
+            AIMoveDecision.BlockInitialised += Move;
+            AIMoveDecision.UnBlockInitialised += Return;
+        }
         Blocked = false;
         Avoided = true;
         }
@@ -44,28 +47,32 @@ public class EnemyMovement : MonoBehaviour {
      }
     private void OnDestroy()
     {
-        AIMoveDecision.BlockInitialised -= Move;
-        AIMoveDecision.UnBlockInitialised -= Return; 
+        if (!gameObject.CompareTag("Tank"))
+        {
+            AIMoveDecision.BlockInitialised -= Move;
+            AIMoveDecision.UnBlockInitialised -= Return;
+        }
     }
     private void Move()
     {
-        StopCoroutine(RaycastAndMove());
-        Blocked = true;
-        if (Mathf.Abs(gameObject.transform.position.x) >= Mathf.Abs(Left) && Mathf.Abs(gameObject.transform.position.x) <= Mathf.Abs(Right))
-        {
-            if (Mathf.Abs(gameObject.transform.position.x) - Mathf.Abs(Left) >= Mathf.Abs(Right) - Mathf.Abs(gameObject.transform.position.x))
+       
+            StopCoroutine(RaycastAndMove());
+            Blocked = true;
+            if (Mathf.Abs(gameObject.transform.position.x) >= Mathf.Abs(Left) && Mathf.Abs(gameObject.transform.position.x) <= Mathf.Abs(Right))
             {
-                Debug.Log("Right for " + gameObject.name);
-                coroutine = SideSwipe(Right);
-                StartCoroutine(SideSwipe(Right));
+                if (Mathf.Abs(gameObject.transform.position.x) - Mathf.Abs(Left) >= Mathf.Abs(Right) - Mathf.Abs(gameObject.transform.position.x))
+                {
+                    Debug.Log("Right for " + gameObject.name);
+                    coroutine = SideSwipe(Right);
+                    StartCoroutine(SideSwipe(Right));
+                }
+                else
+                {
+                    Debug.Log("Left for " + gameObject.name);
+                    coroutine = SideSwipe(Left);
+                    StartCoroutine(SideSwipe(Left));
+                }
             }
-            else
-            {
-                Debug.Log("Left for "+gameObject.name);
-                coroutine = SideSwipe(Left);
-                StartCoroutine(SideSwipe(Left));
-            }
-        }
     }
     IEnumerator SideSwipe(float Side)
     {
@@ -111,10 +118,10 @@ public class EnemyMovement : MonoBehaviour {
                 {
                     Myposition = new Vector2(gameObject.transform.position.x, gameObject.transform.position.y);
                     if (Myposition != MoveToPosition)
-                    {
-                        if (Time.timeScale == 1)
-                            Mybody.AddForce((MoveToPosition - Myposition).normalized * MovementSpeed * Time.deltaTime);
-                        else
+                {
+                     if (Time.timeScale == 1)
+                    Mybody.AddForce((MoveToPosition - Myposition).normalized * MovementSpeed * Time.deltaTime);
+                    else
                         {
                             Mybody.AddForce((MoveToPosition - Myposition).normalized * Time.deltaTime*20 / MovementSpeed);
                         }
@@ -149,54 +156,62 @@ public class EnemyMovement : MonoBehaviour {
     }
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (!Blocked)
+        if (!gameObject.CompareTag("Tank"))
         {
-            if (running == true)
+            if (!Blocked)
             {
-                StopCoroutine(RaycastAndMove());
-                running = false;
-                float x = -(collision.transform.position.x - gameObject.transform.position.x) * MovementSpeed/3;//I think the division is always giving -1. Try subtracting the position of gameobject and collision and then using them in the x of the vector
-                Mybody.AddForce(new Vector2(x, 0));
+                if (running == true)
+                {
+                    StopCoroutine(RaycastAndMove());
+                    running = false;
+                    float x = -(collision.transform.position.x - gameObject.transform.position.x) * MovementSpeed / 3;//I think the division is always giving -1. Try subtracting the position of gameobject and collision and then using them in the x of the vector
+                    Mybody.AddForce(new Vector2(x, 0));
+                }
+
             }
-            
         }
     }
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if(!Blocked)
+        if (!gameObject.CompareTag("Tank"))
         {
-            if(running==false)
+            if (!Blocked)
             {
-                StartCoroutine(RaycastAndMove());
+                if (running == false)
+                {
+                    StartCoroutine(RaycastAndMove());
+                }
             }
         }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-     
-       if (!Blocked)
+        if (!gameObject.CompareTag("Tank"))
         {
-            /*   if (Mathf.Abs(collision.gameObject.transform.position.y) - Mathf.Abs(gameObject.transform.position.y) > 0)
-               {
-                   YDirection = MovementSpeed;
-               }
-               else
-                   YDirection = -MovementSpeed;
-               if (Mathf.Abs(collision.gameObject.transform.position.x) > Mathf.Abs(gameObject.transform.position.x))
-                   XDirection = Left;
-               else
-                   XDirection = Right;
-               Mybody.AddForce(new Vector2(XDirection * MovementSpeed * 10, YDirection * 100));*/
-            if (Time.timeScale == 1)
+            if (!Blocked)
             {
-                if (running == true)
+                /*   if (Mathf.Abs(collision.gameObject.transform.position.y) - Mathf.Abs(gameObject.transform.position.y) > 0)
+                   {
+                       YDirection = MovementSpeed;
+                   }
+                   else
+                       YDirection = -MovementSpeed;
+                   if (Mathf.Abs(collision.gameObject.transform.position.x) > Mathf.Abs(gameObject.transform.position.x))
+                       XDirection = Left;
+                   else
+                       XDirection = Right;
+                   Mybody.AddForce(new Vector2(XDirection * MovementSpeed * 10, YDirection * 100));*/
+                if (Time.timeScale == 1)
                 {
-                    StopCoroutine(RaycastAndMove());
-                    float x = -(collision.transform.position.x-gameObject.transform.position.x)*MovementSpeed/3;//I think the division is always giving -1. Try subtracting the position of gameobject and collision and then using them in the x of the vector
-                    Mybody.AddForce(new Vector2(x, 0));
-                  }
-                StartCoroutine(RaycastAndMove());
+                    if (running == true)
+                    {
+                        StopCoroutine(RaycastAndMove());
+                        float x = -(collision.transform.position.x - gameObject.transform.position.x) * MovementSpeed / 3;//I think the division is always giving -1. Try subtracting the position of gameobject and collision and then using them in the x of the vector
+                        Mybody.AddForce(new Vector2(x, 0));
+                    }
+                    StartCoroutine(RaycastAndMove());
+                }
             }
         }
     }

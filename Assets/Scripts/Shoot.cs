@@ -19,7 +19,7 @@ public class Shoot : MonoBehaviour {
     public float turretspeed;
     GameObject ObjBullet;
     Vector3 AudioPosition;
-    Vector3 NormalizedShootDirection,NormalizedTurretPosition, ZPlayerPos,ZTurretPos;
+    Vector3 NormalizedShootDirection, ZPlayerPos,ZTurretPos;
 
     public GameObject[] Players;
     GameObject PlayerToShoot;
@@ -56,7 +56,7 @@ public class Shoot : MonoBehaviour {
             if (Turret && Turret.transform.rotation.eulerAngles.z!=LookRotation.eulerAngles.z)
             {
                 Quaternion startrotation =Turret.transform.rotation;
-               Turret.transform.rotation = startrotation*Quaternion.AngleAxis((LookRotation.eulerAngles.z-startrotation.eulerAngles.z)*Time.deltaTime, Vector3.forward);
+                Turret.transform.rotation = startrotation*Quaternion.AngleAxis((LookRotation.eulerAngles.z-startrotation.eulerAngles.z)*Time.deltaTime, Vector3.forward);
             }
         }
     }
@@ -70,6 +70,8 @@ public class Shoot : MonoBehaviour {
         ShootRotation = Quaternion.AngleAxis(LookRotation.eulerAngles.z, Vector3.forward);
         ObjBullet = Instantiate<GameObject>(Bullet, BulletSpawnLocation.transform.position, ShootRotation);
         Physics2D.IgnoreCollision(ObjBullet.GetComponent<Collider2D>(), GetComponent<Collider2D>());
+        if (AttachedTurret)
+            ParentMovement.Mybody.AddForce(-NormalizedShootDirection * ParentMovement.MovementSpeed);
         if (Time.timeScale == 1)
             ObjBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(NormalizedShootDirection.x * BulletSpeed, NormalizedShootDirection.y * BulletSpeed);
         else

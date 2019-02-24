@@ -11,6 +11,7 @@ TagManager:
   - Pickups
   - Waypoint
   - Tank
+  - Ammo
   layers:
   - Default
   - TransparentFX

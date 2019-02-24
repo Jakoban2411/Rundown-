@@ -29,7 +29,6 @@ public class BoomBoom : MonoBehaviour {
         {
             if (gameObject && InstantiatedExplosion==null)
             {
-               // Debug.Log("NO BOOM?!");
                 InstantiatedExplosion = Instantiate<GameObject>(Explosion, transform.position, Quaternion.identity);
                 AudioSource.PlayClipAtPoint(ExplosionSFX,AudPos);
                 Destroy(InstantiatedExplosion, 2);
@@ -39,9 +38,9 @@ public class BoomBoom : MonoBehaviour {
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        //Debug.Log("collided");
         if (collision.gameObject.tag == "Destroyer")
         {
+            Debug.Log(collision.gameObject.name);
             isQuitting = true;
         }
     }
@@ -52,8 +51,6 @@ public class BoomBoom : MonoBehaviour {
     }
     private void ChangeOnDestroy(Scene current,Scene next)
     {
-        Debug.Log("uasfiu");
-        Debug.Log("Object: "+gameObject.name);
         isQuitting = true;
         Destroy(Owner);
     }
