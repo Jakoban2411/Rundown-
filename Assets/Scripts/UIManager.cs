@@ -8,6 +8,7 @@ public class UIManager : MonoBehaviour {
     [SerializeField] Button StartB;
     [SerializeField] Button Quit;
     AIMoveDecision Manager;
+    PlaneAIDecision PlaneManager;
     PlayerMovement PlayerScript;
     DamageSystrm PlayerDamage;
     [SerializeField] string endgame;
@@ -21,7 +22,9 @@ public class UIManager : MonoBehaviour {
     // Use this for initialization
     void Start () {
         Manager = FindObjectOfType<AIMoveDecision>();
+        PlaneManager = FindObjectOfType<PlaneAIDecision>();
         Resume.enabled = false;
+        PlaneManager.enabled = false;
         Manager.enabled = false;
         PlayerScript = FindObjectOfType<PlayerMovement>();
         PlayerScript.enabled = false;
@@ -38,7 +41,6 @@ public class UIManager : MonoBehaviour {
     }
 	public void StartPress()
     {
-       Manager.enabled = true;
         StartB.gameObject.SetActive(false);
         Quit.gameObject.SetActive(false);
         Resume.gameObject.SetActive(false);
@@ -56,6 +58,7 @@ public class UIManager : MonoBehaviour {
             TimeScore.text = (Time.timeSinceLevelLoad - StartTime).ToString("F2");
             if (Input.GetKeyDown(KeyCode.Escape))
             {
+                
                 if (Time.timeScale == 1)
                 {
                     Time.timeScale = 0;
@@ -77,6 +80,7 @@ public class UIManager : MonoBehaviour {
     }
     void PauseControl(bool ctrl)
     {
+        PlayerScript.enabled = !ctrl;
         Manager.enabled = !ctrl;
         Player.GetComponent<Renderer>().enabled = !ctrl;
         Quit.gameObject.SetActive(ctrl);
@@ -90,7 +94,7 @@ public class UIManager : MonoBehaviour {
     {
         while (Player.transform.position != MoveToObject.transform.position)
         {
-            Player.transform.position = Vector2.MoveTowards(Player.transform.position, MoveToObject.transform.position, PlayerScript.MovementSpeed * Time.deltaTime);
+            Player.transform.position = Vector2.MoveTowards(Player.transform.position, MoveToObject.transform.position, 4 * Time.deltaTime);
             yield return new WaitForEndOfFrame();
             if (Player.transform.position == MoveToObject.transform.position)
             {
@@ -100,6 +104,8 @@ public class UIManager : MonoBehaviour {
                 Started = true;
                 StopCoroutine(PlayerMove());
                 Clampers.SetActive(true);
+                Manager.enabled = true;
+                PlaneManager.enabled = true;
                 PlayerScript.Health.SetActive(true);
                 StartTime = Time.timeSinceLevelLoad;
             }

@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 114617622664772432}
   - component: {fileID: 114082877885014972}
   - component: {fileID: 61033319892308976}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: SawBig
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -116,7 +116,14 @@ MonoBehaviour:
   isTime: 0
   isExplode: 0
   isSpike: 1
+  isAirdrop: 0
   Unstoppable: {fileID: 0}
+  AirDrop: {fileID: 0}
+  BombExplode: {fileID: 0}
+  LeftPlane: {fileID: 0}
+  RightPlane: {fileID: 0}
+  StartLeft: {fileID: 0}
+  StartRight: {fileID: 0}
 --- !u!212 &212408949500707780
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -149,8 +156,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 2099458039
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 6b6d324bad9d1d94682656bfe3dec873, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

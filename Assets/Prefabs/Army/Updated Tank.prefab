@@ -25,9 +25,10 @@ GameObject:
   - component: {fileID: 50547205052852120}
   - component: {fileID: 61037089431880308}
   - component: {fileID: 114496074020240548}
+  - component: {fileID: 114742136378441748}
   m_Layer: 0
   m_Name: Updated Tank
-  m_TagString: Tank
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -187,10 +188,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WaypointManager: {fileID: 0}
-  MovementSpeed: 5000000
+  MovementSpeed: 7000000
   sec: 10
   running: 0
   index0: 0
+  isTank: 1
   Left: 0
   Right: 0
   Mybody: {fileID: 0}
@@ -213,6 +215,8 @@ MonoBehaviour:
   - {fileID: 1473630606772288, guid: 7f00060dac91e2f4581088ce4d363c25, type: 2}
   - {fileID: 1365357495905410, guid: 9419be06cb6b6cb4faf17bcb2a228c2d, type: 2}
   - {fileID: 1208241291225538, guid: 8429045bf6d19244fb70bb843b6a64b6, type: 2}
+  - {fileID: 1169026754305240, guid: 772049960f6a07346a00f94618729031, type: 2}
+  isTank: 1
   DamageEffect: {fileID: 0}
 --- !u!114 &114714922340422480
 MonoBehaviour:
@@ -234,6 +238,19 @@ MonoBehaviour:
   BulletSpeed: 5
   turretspeed: 1
   Players: []
+--- !u!114 &114742136378441748
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1031001666382078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3217531a5971f1e4987903c759bae0e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Explosion: {fileID: 139366, guid: bb672f9225f107d4e99f142e660a7475, type: 2}
+  ExplosionSFX: {fileID: 8300000, guid: 15b4dd2b0e452da4ebba74ec0a42d8fc, type: 3}
 --- !u!212 &212237384678950842
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -266,8 +283,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 2099458039
+  m_SortingLayer: 1
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: d0dcec46dc1cd2f43bac7f2f9b0ac691, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -312,8 +329,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 2099458039
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 70322db9b5cf631428bb3ad9bd02bbea, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

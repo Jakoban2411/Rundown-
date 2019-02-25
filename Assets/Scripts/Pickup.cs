@@ -9,7 +9,7 @@ public class Pickup : MonoBehaviour {
     GameObject ObjBullet;
     [SerializeField] bool isHealth,isTime,isExplode,isSpike,isAirdrop;
     [SerializeField] AudioClip Unstoppable,AirDrop,BombExplode;
-    [SerializeField] GameObject LeftPlane, RightPlane,StartLeft,StartRight;
+    [SerializeField] GameObject LeftPlane, RightPlane;
     // Use this for initialization
     void Start()
     {
@@ -42,7 +42,8 @@ public class Pickup : MonoBehaviour {
             }
             if(isAirdrop)
             {
-
+                StartCoroutine(AirSupport(collision.gameObject.GetComponent<PlayerMovement>().PlaneLeft, collision.gameObject.GetComponent<PlayerMovement>().PlaneRight));
+                destroyinsec = 15;
             }
             gameObject.GetComponent<SpriteRenderer>().enabled = false;
             Destroy(gameObject,destroyinsec);
@@ -50,7 +51,7 @@ public class Pickup : MonoBehaviour {
     }
     private void OnDestroy()
     {
-        StopAllCoroutines();
+       StopAllCoroutines();
     }
     IEnumerator Spikes(GameObject spike)
     {
@@ -58,20 +59,26 @@ public class Pickup : MonoBehaviour {
         yield return new WaitForSeconds(7);
         spike.SetActive(false);
     }
-    IEnumerator AirSupport()
+    IEnumerator AirSupport(Vector3 StartLeft,Vector3 StartRight)
     {
-        GameObject Left = Instantiate<GameObject>(LeftPlane, StartLeft.transform.position, LeftPlane.transform.rotation);
-        GameObject Right = Instantiate<GameObject>(RightPlane, StartRight.transform.position, RightPlane.transform.rotation);
-        yield return new WaitForSeconds(0.5f);
+        GameObject Left = Instantiate<GameObject>(LeftPlane, StartLeft, LeftPlane.transform.rotation);
+        GameObject Right = Instantiate<GameObject>(RightPlane, StartRight, RightPlane.transform.rotation);
+        yield return new WaitForSeconds(1);
         GameObject[] Enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        Debug.Log(Enemies.Length+" Left: "+Left.transform.position);
         AudioSource.PlayClipAtPoint(AirDrop, Camera.main.transform.position);
-        yield return new WaitForSeconds(7.5f);
+        yield return new WaitForSeconds(7);
         foreach (GameObject enemy in Enemies)
         {
-            AudioSource.PlayClipAtPoint(BombExplode, new Vector3(enemy.transform.position.x, enemy.transform.position.y, Camera.main.transform.position.z));
-            Destroy(enemy);
-            yield return new WaitForSeconds(.5f);
+            if (enemy)
+            {
+                AudioSource.PlayClipAtPoint(BombExplode, new Vector3(enemy.transform.position.x, enemy.transform.position.y, Camera.main.transform.position.z));
+                Debug.Log(enemy.name);
+                Destroy(enemy);
+                yield return new WaitForSeconds(.5f);
+            }
         }
+        Debug.Log("Exited");
         yield return null; 
     }
         IEnumerator OmniDirection(PlayerMovement playerscript,float duration)

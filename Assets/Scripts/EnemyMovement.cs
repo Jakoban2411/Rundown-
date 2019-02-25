@@ -10,6 +10,7 @@ public class EnemyMovement : MonoBehaviour {
     bool changed;
     public bool running;
     [SerializeField]int index0;
+    public bool isTank;
     public float Left, Right;
     Vector2 LookForward;
     RaycastHit2D hit;
@@ -29,7 +30,7 @@ public class EnemyMovement : MonoBehaviour {
         Mybody = GetComponent<Rigidbody2D>();
         altWaypoint = WaypointManager.Waypoints[index0];
         LookForward = new Vector2(altWaypoint.transform.position.x, altWaypoint.transform.position.y+0.2f);
-        if (!gameObject.CompareTag("Tank"))
+        if (!isTank)
         {
             AIMoveDecision.BlockInitialised += Move;
             AIMoveDecision.UnBlockInitialised += Return;
@@ -47,7 +48,7 @@ public class EnemyMovement : MonoBehaviour {
      }
     private void OnDestroy()
     {
-        if (!gameObject.CompareTag("Tank"))
+        if (!isTank)
         {
             AIMoveDecision.BlockInitialised -= Move;
             AIMoveDecision.UnBlockInitialised -= Return;
@@ -55,7 +56,8 @@ public class EnemyMovement : MonoBehaviour {
     }
     private void Move()
     {
-       
+        if (!isTank)
+        {
             StopCoroutine(RaycastAndMove());
             Blocked = true;
             if (Mathf.Abs(gameObject.transform.position.x) >= Mathf.Abs(Left) && Mathf.Abs(gameObject.transform.position.x) <= Mathf.Abs(Right))
@@ -73,11 +75,11 @@ public class EnemyMovement : MonoBehaviour {
                     StartCoroutine(SideSwipe(Left));
                 }
             }
+        }
     }
     IEnumerator SideSwipe(float Side)
     {
         Avoided = false;
-        Debug.Log(gameObject.name+" going "+Side.ToString());
         if (Side <= gameObject.transform.position.x)
         {
             while (Mathf.Abs(gameObject.transform.position.x) > Mathf.Abs(Side))
@@ -107,7 +109,6 @@ public class EnemyMovement : MonoBehaviour {
     }
     // Update is called once per frame
     void Update () {
-        //Debug.Log("Running " + running.ToString()+" for "+gameObject.name);
         if(WaypointManager==null)
         {
             WaypointManager = FindObjectOfType<AIMoveDecision>();
@@ -119,6 +120,8 @@ public class EnemyMovement : MonoBehaviour {
                     Myposition = new Vector2(gameObject.transform.position.x, gameObject.transform.position.y);
                     if (Myposition != MoveToPosition)
                 {
+                    if (isTank)
+                        Debug.Log("Moving:" + MoveToPosition.ToString());
                      if (Time.timeScale == 1)
                     Mybody.AddForce((MoveToPosition - Myposition).normalized * MovementSpeed * Time.deltaTime);
                     else
@@ -156,7 +159,7 @@ public class EnemyMovement : MonoBehaviour {
     }
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (!gameObject.CompareTag("Tank"))
+        if (isTank)
         {
             if (!Blocked)
             {
@@ -173,7 +176,7 @@ public class EnemyMovement : MonoBehaviour {
     }
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (!gameObject.CompareTag("Tank"))
+        if (!isTank)
         {
             if (!Blocked)
             {
@@ -187,21 +190,10 @@ public class EnemyMovement : MonoBehaviour {
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (!gameObject.CompareTag("Tank"))
+        if (!isTank)
         {
             if (!Blocked)
             {
-                /*   if (Mathf.Abs(collision.gameObject.transform.position.y) - Mathf.Abs(gameObject.transform.position.y) > 0)
-                   {
-                       YDirection = MovementSpeed;
-                   }
-                   else
-                       YDirection = -MovementSpeed;
-                   if (Mathf.Abs(collision.gameObject.transform.position.x) > Mathf.Abs(gameObject.transform.position.x))
-                       XDirection = Left;
-                   else
-                       XDirection = Right;
-                   Mybody.AddForce(new Vector2(XDirection * MovementSpeed * 10, YDirection * 100));*/
                 if (Time.timeScale == 1)
                 {
                     if (running == true)

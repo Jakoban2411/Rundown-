@@ -10,7 +10,6 @@ TagManager:
   - Container
   - Pickups
   - Waypoint
-  - Tank
   - Ammo
   - Missile
   - Plane
@@ -23,10 +22,10 @@ TagManager:
   - UI
   - 
   - 
-  - Borders
+  - Planes
   - Player
   - Pickups
-  - 
+  - Borders
   - 
   - 
   - 
@@ -50,4 +49,13 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Cars
+    uniqueID: 2099458039
+    locked: 0
+  - name: UI
+    uniqueID: 1081429595
+    locked: 0
+  - name: Planes
+    uniqueID: 3459562551
     locked: 0

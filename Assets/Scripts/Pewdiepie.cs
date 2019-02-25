@@ -37,24 +37,30 @@ public class Pewdiepie : MonoBehaviour {
         audioSource.volume = startVolume;
     }
     // Update is called once per frame
-    void Update () {
-        if(Sideways)
-            movethisframe = new Vector3(gameObject.transform.position.x - MovementSpeed * Time.deltaTime, gameObject.transform.position.y , gameObject.transform.position.z);
+    void Update()
+    {
+        if (Sideways)
+            movethisframe = new Vector3(gameObject.transform.position.x - MovementSpeed * Time.deltaTime, gameObject.transform.position.y, gameObject.transform.position.z);
         else
-            movethisframe = new Vector3(gameObject.transform.position.x , gameObject.transform.position.y - MovementSpeed * Time.deltaTime, gameObject.transform.position.z);
+            movethisframe = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y - MovementSpeed * Time.deltaTime, gameObject.transform.position.z);
         gameObject.transform.position = movethisframe;
         if (source.volume == 0)
             Destroy(gameObject);
+        if (shot == false)
+        {
+            StartCoroutine(ShootAtPlayer());
+        }
     }
     IEnumerator ShootAtPlayer()
     {
         shot = true;
         if(isTracker)
          {  
-            yield return new WaitForSeconds(1.5f);
+            //yield return new WaitForSeconds(1.5f);
             AudioSource.PlayClipAtPoint(Fire, Camera.main.transform.position);
             BulletLeft = Instantiate<GameObject>(Round,Center.transform.position, Round.transform.rotation);
             Physics2D.IgnoreCollision(BulletLeft.GetComponent<Collider2D>(), GetComponent<Collider2D>());
+            yield return new WaitForSeconds(RateOfFire);
          }
         if(isDouble)
         {  
@@ -79,7 +85,7 @@ public class Pewdiepie : MonoBehaviour {
                 AudioSource.PlayClipAtPoint(Fire, Camera.main.transform.position);
                 played=true;
             }
-            BulletLeft = Instantiate<GameObject>(Round,Center.transform.position, Round.transform.rotation);
+            BulletLeft = Instantiate<GameObject>(Round,Center.transform.position, Center.transform.rotation);
             Physics2D.IgnoreCollision(BulletLeft.GetComponent<Collider2D>(), GetComponent<Collider2D>());
             BulletLeft.GetComponent<Rigidbody2D>().velocity = new Vector2(0, -BulletSpeed);
             yield return new WaitForSeconds(RateOfFire);

@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 114767279853943902}
   - component: {fileID: 58435616737303090}
   - component: {fileID: 95043253868104460}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Exclamation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -105,7 +105,15 @@ MonoBehaviour:
   isHealth: 0
   isTime: 0
   isExplode: 1
+  isSpike: 0
+  isAirdrop: 0
   Unstoppable: {fileID: 8300000, guid: f958b0bfbc82a9d49ba3e99aa017beb0, type: 3}
+  AirDrop: {fileID: 0}
+  BombExplode: {fileID: 0}
+  LeftPlane: {fileID: 0}
+  RightPlane: {fileID: 0}
+  StartLeft: {fileID: 0}
+  StartRight: {fileID: 0}
 --- !u!212 &212652106009051364
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -138,8 +146,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 2099458039
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 65798edc5cced9645b7fb040c7668e93, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class AIMoveDecision : MonoBehaviour {
     public List<WaypointProperties> Waypoints;
-    [SerializeField] WaveConfig[] Waves;
+    public WaveConfig[] Waves;
     [SerializeField] float SecBetWave;
     float TimeInterval;
     public float[] Stages;
     public GameObject[] Players;
     [SerializeField] GameObject[] RoadBlocks;
-    //WaveConfig[] InstantiatedWaves;
     public float lanepos,seconds;
     int WaveIndex;
     float LastTime;
@@ -33,12 +32,12 @@ public class AIMoveDecision : MonoBehaviour {
         sizeofwaves = Waves.Length;
         index = 0;
        if (FindObjectsOfType<AIMoveDecision>().Length > 1)
-        {
+       {
             Destroy(gameObject);
-        }
+       }
         else
             DontDestroyOnLoad(gameObject);          //Check if it works. Its getting deleted and a new AIMove is getting instantiaed on pressing start button
-        TimeInterval = Stages[index];
+            TimeInterval = Stages[index];
         }
     void OnEnable () {
         sizeblock = RoadBlocks.Length;
@@ -50,10 +49,6 @@ public class AIMoveDecision : MonoBehaviour {
         StartCoroutine(StartWaves());
         for (int i = 0; i < Waves.Length; i++)
             Waves[i].NumberOfEnemies = 3;
-        /* for (int i = 0; i < Waves.Length; i++)
-         {
-             InstantiatedWaves[i] = ScriptableObject.CreateInstance<WaveConfig>(Waves[i]);
-        }*/
     }
     private void OnDisable()
     {
@@ -96,13 +91,19 @@ public class AIMoveDecision : MonoBehaviour {
         private IEnumerator StartWaves()
     {
         Spawned = true;
-        yield return StartCoroutine(Waves[WaveIndex].SpawnEnemy(gameObject.transform));
-        yield return new WaitForSeconds(SecBetWave);
-        Spawned = false;
-        WaveIndex++;
-        if (WaveIndex==Waves.Length)
+        if (Waves[WaveIndex])
         {
-            WaveIndex = 0;
+
+            yield return StartCoroutine(Waves[WaveIndex].SpawnEnemy(gameObject.transform));
+            yield return new WaitForSeconds(SecBetWave);
+            Spawned = false;
+            WaveIndex++;
+            if (WaveIndex == Waves.Length)
+            {
+                WaveIndex = 0;
+            }
         }
+        else
+            Debug.Log("NO WAVE!");
     }
 }

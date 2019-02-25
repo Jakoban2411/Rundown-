@@ -24,7 +24,9 @@ public class PlayerMovement : MonoBehaviour {
     Rigidbody2D PlayerBody;
     public GameObject Health;
     GameObject Spikes;
+    public GameObject Left, Right;
     Vector3 velocity;
+    public Vector3 PlaneLeft, PlaneRight;
     // Use this for initialization
     void Start () {
         float Zdis = Camera.main.transform.position.z - transform.position.z;
@@ -35,6 +37,10 @@ public class PlayerMovement : MonoBehaviour {
         Mid = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0, Zdis)).x;
         BulletsFired = 0;
         Reloading = false;
+        PlaneLeft = Left.transform.position;
+        PlaneRight = Right.transform.position;
+        Destroy(Left);
+        Destroy(Right);
         PlayerBody = GetComponent<Rigidbody2D>();
         FadeAnim=ReloadText.GetComponent<Animation>();
         FadeAnim.Stop();
@@ -65,15 +71,7 @@ public class PlayerMovement : MonoBehaviour {
     private void Move(float displacementx, float displacementy)
     {
         displacement = new Vector3(displacementx, displacementy,0);
-        //deltapos = displacement * Time.deltaTime*MovementSpeed;
         PlayerBody.AddForce(displacement*MovementSpeed*Time.unscaledDeltaTime);
-       /* if (transform.position.x > RightBorder || transform.position.x < LeftBorder || transform.position.y > TopBorder || transform.position.y < BottomBorder)
-        {
-            newpos = transform.position;
-            newpos.x = Mathf.Clamp(newpos.x, LeftBorder + .8f, RightBorder - .8f);
-            newpos.y = Mathf.Clamp(newpos.y, BottomBorder + .8f, TopBorder - .8f);
-            transform.position = newpos;
-        }*/
     }
 
     private void Fire()

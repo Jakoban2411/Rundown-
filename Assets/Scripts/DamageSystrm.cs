@@ -6,7 +6,6 @@ public class DamageSystrm : MonoBehaviour
 {
     public float CollisionDamage;
     public float MaxHealth,Health;
-    //[HideInInspector] public float Health;
     public GameObject[] Pickup;
     float DropProb;
     GameObject Healthsprite;
@@ -14,6 +13,7 @@ public class DamageSystrm : MonoBehaviour
     Vector3 Maxscale;
     bool isPlayer;
     GameObject PickupSprite;
+    public bool isTank;
     [SerializeField]GameObject DamageEffect;
     Animator Effect;
     // Use this for initialization
@@ -28,7 +28,7 @@ public class DamageSystrm : MonoBehaviour
             Effect=DamageEffect.GetComponent<Animator>();
         }
         index = UnityEngine.Random.Range(0, Pickup.Length);
-        if (gameObject.tag == "Tank")
+        if (isTank)
             DropProb = 1;
         else
             DropProb = Random.value;

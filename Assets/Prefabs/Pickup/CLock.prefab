@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 114482753712388534}
   - component: {fileID: 61957006131554598}
   - component: {fileID: 95183616452505594}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: CLock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -103,7 +103,15 @@ MonoBehaviour:
   isHealth: 0
   isTime: 1
   isExplode: 0
+  isSpike: 0
+  isAirdrop: 0
   Unstoppable: {fileID: 0}
+  AirDrop: {fileID: 0}
+  BombExplode: {fileID: 0}
+  LeftPlane: {fileID: 0}
+  RightPlane: {fileID: 0}
+  StartLeft: {fileID: 0}
+  StartRight: {fileID: 0}
 --- !u!114 &114482753712388534
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -148,8 +156,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 2099458039
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 0433c1ac2071d014489ecee6bdb4e3dd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

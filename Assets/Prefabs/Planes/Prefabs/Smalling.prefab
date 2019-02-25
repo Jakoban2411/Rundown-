@@ -11,6 +11,21 @@ Prefab:
   m_SourcePrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1848989784456478}
   m_IsPrefabAsset: 1
+--- !u!1 &1653002870991312
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4554244879788080}
+  m_Layer: 0
+  m_Name: MissileFire
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1848989784456478
 GameObject:
   m_ObjectHideFlags: 0
@@ -24,9 +39,10 @@ GameObject:
   - component: {fileID: 82283745796912178}
   - component: {fileID: 114858697332905546}
   - component: {fileID: 60082818300010118}
-  m_Layer: 0
+  - component: {fileID: 114948533723133694}
+  m_Layer: 8
   m_Name: Smalling
-  m_TagString: Untagged
+  m_TagString: Plane
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -37,11 +53,25 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1848989784456478}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 90.960304, y: 8.314831, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
+  m_LocalPosition: {x: 85.52, y: 12.99, z: 0}
   m_LocalScale: {x: 1.5, y: 2, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 4554244879788080}
   m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
+--- !u!4 &4554244879788080
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1653002870991312}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.8, y: 0.2, z: 0}
+  m_LocalScale: {x: 1, y: 0.75, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4333081904683400}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!60 &60082818300010118
@@ -124,13 +154,13 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 1945cb36325c64745b17c46ef81500e1, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 85
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -237,7 +267,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98cc1889f920b6e4da8f393fa905a989, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MoveSpeed: 10000
+  MoveSpeed: 2
+--- !u!114 &114948533723133694
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1848989784456478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbf4645f99bbc6547a3086433ccde84a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MovementSpeed: 2
+  Sideways: 0
+  isTracker: 1
+  isDouble: 0
+  isSingle: 0
+  Health: 0
+  BulletSpeed: 0
+  Left: {fileID: 0}
+  Right: {fileID: 0}
+  Center: {fileID: 1653002870991312}
+  Round: {fileID: 1362026422816788, guid: 6fd5c35331ede1e4c96fd09d1c28d71f, type: 2}
+  RateOfFire: 50
+  Fire: {fileID: 8300000, guid: 7665daf38d544b641a38254eb98b8e86, type: 3}
 --- !u!212 &212750524810621036
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -270,8 +324,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -835404745
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: d8e59c6f7ac22684094c306d43580103, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
